@@ -1,0 +1,263 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B12702AD-ABFB-343A-A199-8E24837244A3}</ProjectGuid>
+    <Keyword>QtVS_v301</Keyword>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup Condition="'$(QtMsBuild)'=='' or !Exists('$(QtMsBuild)\qt.targets')">
+    <QtMsBuild>$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+    <IncludePath>E:\Qt\Qt5.6.3\5.6.3\msvc2015_64\include;E:\Microsoft DirectX SDK (February 2010)\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\Qt\Qt5.6.3\5.6.3\msvc2015_64\lib;E:\Microsoft DirectX SDK %28February 2010%29\Lib\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
+    <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
+  </Target>
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="Shared" />
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt_defaults.props')">
+    <Import Project="$(QtMsBuild)\qt_defaults.props" />
+  </ImportGroup>
+  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <QtInstall>msvc2015_64</QtInstall>
+    <QtModules>core;gui;widgets</QtModules>
+    <QtRunLUpdateOnBuild>true</QtRunLUpdateOnBuild>
+  </PropertyGroup>
+  <PropertyGroup Label="QtSettings" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <QtInstall>msvc2015_64</QtInstall>
+    <QtModules>core;gui;widgets</QtModules>
+  </PropertyGroup>
+  <ImportGroup Condition="Exists('$(QtMsBuild)\qt.props')">
+    <Import Project="$(QtMsBuild)\qt.props" />
+  </ImportGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>Qt5Cored.lib;Qt5Widgetsd.lib;Qt5Guid.lib;dxerr.lib;dxguid.lib;d3dx9d.lib;d3dx10d.lib;d3d9.lib;winmm.lib;comctl32.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <CustomBuildStep>
+      <Command>
+      </Command>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Message>
+      </Message>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Outputs>
+      </Outputs>
+    </CustomBuildStep>
+    <CustomBuildStep>
+      <Inputs>
+      </Inputs>
+    </CustomBuildStep>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DebugInformationFormat />
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="A4D.cpp" />
+    <ClCompile Include="AWidget.cpp" />
+    <ClCompile Include="Engine\AObject.cpp" />
+    <ClCompile Include="Engine\BaseMaterial.cpp" />
+    <ClCompile Include="Engine\BaseMesh.cpp" />
+    <ClCompile Include="Engine\BoneWeight.cpp" />
+    <ClCompile Include="Engine\BoundBox.cpp" />
+    <ClCompile Include="Engine\BoundFrustum.cpp" />
+    <ClCompile Include="Engine\BoundSphere.cpp" />
+    <ClCompile Include="Engine\Button.cpp" />
+    <ClCompile Include="Engine\Camera.cpp" />
+    <ClCompile Include="Engine\CameraMove.cpp" />
+    <ClCompile Include="Engine\Component.cpp" />
+    <ClCompile Include="Engine\Console.cpp" />
+    <ClCompile Include="Engine\DirectoryWatcher.cpp" />
+    <ClCompile Include="Engine\DynamicBatchManager.cpp" />
+    <ClCompile Include="Engine\EventDispatcher.cpp" />
+    <ClCompile Include="Engine\FileUtil.cpp" />
+    <ClCompile Include="Engine\FrustumCulling.cpp" />
+    <ClCompile Include="Engine\GameObject.cpp" />
+    <ClCompile Include="Engine\GameWorld.cpp" />
+    <ClCompile Include="Engine\GeometryFilter.cpp" />
+    <ClCompile Include="Engine\global.cpp" />
+    <ClCompile Include="Engine\GmbMeshFilter.cpp" />
+    <ClCompile Include="Engine\Image2D.cpp" />
+    <ClCompile Include="Engine\Layer.cpp" />
+    <ClCompile Include="Engine\MainUi.cpp" />
+    <ClCompile Include="Engine\Material.cpp" />
+    <ClCompile Include="Engine\MaterialUnit.cpp" />
+    <ClCompile Include="Engine\Mesh.cpp" />
+    <ClCompile Include="Engine\MeshFilter.cpp" />
+    <ClCompile Include="Engine\MeshGenerator.cpp" />
+    <ClCompile Include="Engine\MeshRender.cpp" />
+    <ClCompile Include="Engine\MouseMgr.cpp" />
+    <ClCompile Include="Engine\Node.cpp" />
+    <ClCompile Include="Engine\OctreeNode.cpp" />
+    <ClCompile Include="Engine\OrientedBoundBox.cpp" />
+    <ClCompile Include="Engine\Panel.cpp" />
+    <ClCompile Include="Engine\Render.cpp" />
+    <ClCompile Include="Engine\RenderElement.cpp" />
+    <ClCompile Include="Engine\RenderQueue.cpp" />
+    <ClCompile Include="Engine\RenderState.cpp" />
+    <ClCompile Include="Engine\RenderTexture.cpp" />
+    <ClCompile Include="Engine\Resource.cpp" />
+    <ClCompile Include="Engine\Scene.cpp" />
+    <ClCompile Include="Engine\SceneManager.cpp" />
+    <ClCompile Include="Engine\Script.cpp" />
+    <ClCompile Include="Engine\SkcMesh.cpp" />
+    <ClCompile Include="Engine\SkcMeshFilter.cpp" />
+    <ClCompile Include="Engine\SkcRender.cpp" />
+    <ClCompile Include="Engine\Sprite.cpp" />
+    <ClCompile Include="Engine\StaticBatch.cpp" />
+    <ClCompile Include="Engine\StaticBatchManager.cpp" />
+    <ClCompile Include="Engine\stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Engine\SubMesh.cpp" />
+    <ClCompile Include="Engine\TexturePool.cpp" />
+    <ClCompile Include="Engine\Time.cpp" />
+    <ClCompile Include="Engine\Transform.cpp" />
+    <ClCompile Include="Engine\Vector3.cpp" />
+    <ClCompile Include="Engine\WGraphics.cpp" />
+    <ClCompile Include="Engine\WInputModel.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="ui_A4d.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="A4D.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="A4D.ui">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </Command>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="A4D.qrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AWidget.h" />
+    <ClInclude Include="Engine\AObject.h" />
+    <ClInclude Include="Engine\BaseMaterial.h" />
+    <ClInclude Include="Engine\BaseMesh.h" />
+    <ClInclude Include="Engine\BoneWeight.h" />
+    <ClInclude Include="Engine\BoundBox.h" />
+    <ClInclude Include="Engine\BoundFrustum.h" />
+    <ClInclude Include="Engine\BoundSphere.h" />
+    <ClInclude Include="Engine\Button.h" />
+    <ClInclude Include="Engine\Camera.h" />
+    <ClInclude Include="Engine\CameraMove.h" />
+    <ClInclude Include="Engine\Component.h" />
+    <ClInclude Include="Engine\Console.h" />
+    <ClInclude Include="Engine\DirectoryWatcher.h" />
+    <ClInclude Include="Engine\DynamicBatchManager.h" />
+    <ClInclude Include="Engine\EventDispatcher.h" />
+    <ClInclude Include="Engine\FileUtil.h" />
+    <ClInclude Include="Engine\FrustumCulling.h" />
+    <ClInclude Include="Engine\GameObject.h" />
+    <ClInclude Include="Engine\GameWorld.h" />
+    <ClInclude Include="Engine\GeometryFilter.h" />
+    <ClInclude Include="Engine\global.h" />
+    <ClInclude Include="Engine\GmbMeshFilter.h" />
+    <ClInclude Include="Engine\Image2D.h" />
+    <ClInclude Include="Engine\Layer.h" />
+    <ClInclude Include="Engine\MainUi.h" />
+    <ClInclude Include="Engine\Material.h" />
+    <ClInclude Include="Engine\MaterialUnit.h" />
+    <ClInclude Include="Engine\Mesh.h" />
+    <ClInclude Include="Engine\MeshFilter.h" />
+    <ClInclude Include="Engine\MeshGenerator.h" />
+    <ClInclude Include="Engine\MeshRender.h" />
+    <ClInclude Include="Engine\MouseMgr.h" />
+    <ClInclude Include="Engine\Node.h" />
+    <ClInclude Include="Engine\object.h" />
+    <ClInclude Include="Engine\OctreeNode.h" />
+    <ClInclude Include="Engine\OrientedBoundBox.h" />
+    <ClInclude Include="Engine\Panel.h" />
+    <ClInclude Include="Engine\Pool.h" />
+    <ClInclude Include="Engine\Render.h" />
+    <ClInclude Include="Engine\RenderElement.h" />
+    <ClInclude Include="Engine\RenderQueue.h" />
+    <ClInclude Include="Engine\RenderState.h" />
+    <ClInclude Include="Engine\RenderTexture.h" />
+    <ClInclude Include="Engine\resource.h" />
+    <ClInclude Include="Engine\resources.h" />
+    <ClInclude Include="Engine\Scene.h" />
+    <ClInclude Include="Engine\SceneManager.h" />
+    <ClInclude Include="Engine\Script.h" />
+    <ClInclude Include="Engine\SkcMesh.h" />
+    <ClInclude Include="Engine\SkcMeshFilter.h" />
+    <ClInclude Include="Engine\SkcRender.h" />
+    <ClInclude Include="Engine\Sprite.h" />
+    <ClInclude Include="Engine\StaticBatch.h" />
+    <ClInclude Include="Engine\StaticBatchManager.h" />
+    <ClInclude Include="Engine\stdafx.h" />
+    <ClInclude Include="Engine\SubMesh.h" />
+    <ClInclude Include="Engine\targetver.h" />
+    <ClInclude Include="Engine\TexturePool.h" />
+    <ClInclude Include="Engine\Time.h" />
+    <ClInclude Include="Engine\Transform.h" />
+    <ClInclude Include="Engine\Vector3.h" />
+    <ClInclude Include="Engine\W4DCommon.h" />
+    <ClInclude Include="Engine\WGraphics.h" />
+    <ClInclude Include="Engine\WInputModel.h" />
+    <ClInclude Include="ui_A4D.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
