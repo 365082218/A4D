@@ -20,11 +20,37 @@ A4D::A4D(QWidget *parent)
 	pInput->Init();
 	pGraphs->Setup();
 	pWorld = new GameWorld();
+	InitHandler();
 }
 
 A4D::~A4D()
 {
-	A4D::_Instance = this;
+	A4D::_Instance = NULL;
+	delete pTexturePool;
+
+}
+
+void A4D::InitHandler()
+{
+	QObject::connect(ui.actionShaded, &QAction::triggered, this, &A4D::Shaded);
+	QObject::connect(ui.actionWireframe, &QAction::triggered, this, &A4D::WireFrame);
+}
+
+void A4D::WireFrame(bool trigger)
+{
+	OutputDebugStringA("");
+	if (pGraphs != NULL && pGraphs->pEditorDevice != NULL)
+	{
+		pGraphs->pEditorDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_WIREFRAME);//线框
+	}
+}
+
+void A4D::Shaded(bool trigger)
+{
+	if (pGraphs != NULL && pGraphs->pEditorDevice != NULL)
+	{
+		pGraphs->pEditorDevice->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);//面
+	}
 }
 
 void A4D::EngineRender()
@@ -35,26 +61,16 @@ void A4D::EngineRender()
 	EditorUpdate(); //编辑器刷新帧.
 }
 
-//void A4D::paintEvent(QPaintEvent *event)
-//{
-//	//计算fps
-//	//frameCount++;
-//	//if (getTime() > 1.0f)
-//	//{
-//	//	fps = frameCount;
-//	//	frameCount = 0;
-//	//	startFPStimer();
-//	//	//设置父窗口标题显示fps值
-//	//	parentWidget()->setWindowTitle("FPS: " + QString::number(fps));
-//	//}
-//	//frameTime = getFrameTime();
-//	////更新场景和渲染场景
-//	//UpdateScene(frameTime);
-//	//RenderScene();
-//
-//
-//	QWidget::paintEvent(event);
-//}
+void A4D::paintEvent(QPaintEvent *event)
+{
+	this->ui.treeWidget->clear();
+	this->ui.treeWidget->insertTopLevelItem(0, new QTreeWidgetItem(this->ui.treeWidget, QStringList("123")));
+	this->ui.treeWidget->insertTopLevelItem(0, new QTreeWidgetItem(this->ui.treeWidget, QStringList("234")));
+	this->ui.treeWidget->insertTopLevelItem(0, new QTreeWidgetItem(this->ui.treeWidget, QStringList("456")));
+	this->ui.treeWidget->insertTopLevelItem(0, new QTreeWidgetItem(this->ui.treeWidget, QStringList("789")));
+	this->ui.treeWidget->insertTopLevelItem(0, new QTreeWidgetItem(this->ui.treeWidget, QStringList("111")));
+	QWidget::paintEvent(event);
+}
 
 void A4D::EditorUpdate()
 {

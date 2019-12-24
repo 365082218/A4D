@@ -9,7 +9,6 @@
 using namespace std;
 WGraphics::WGraphics()
 {
-	frameCnt = 0;
 	pGameDevice = NULL;
 }
 
@@ -28,7 +27,7 @@ void WGraphics::LoadSkc(char * file)
 */
 void WGraphics::Setup()
 {
-	pEditScene = new Scene();
+	pEditScene = new Scene("SampleScene");
 	for (int i = 0; i < 1; i++)
 	{
 		char buff[20];

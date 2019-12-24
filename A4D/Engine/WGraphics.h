@@ -24,7 +24,6 @@ public:
 	IDirect3D9 * pD3d9;
 	IDirect3DDevice9 * pEditorDevice;//编辑器设备
 	IDirect3DDevice9 * pGameDevice;//正式游戏环境设备
-	unsigned long frameCnt;
 	Scene * pEditScene;
 	Camera * pEditCamera;
 	void LoadSkc(char * file);

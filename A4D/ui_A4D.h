@@ -36,7 +36,7 @@ public:
 	QAction *actionNew_project;
 	QAction *actionOpen_project;
 	QAction *actionSave_Project;
-	QAction *actionWire_Frame;
+	QAction *actionShaded;
 	QAction *actionWireframe;
 	QAction *actionShaded_Wireframe;
 	QAction *actionCW;
@@ -80,8 +80,8 @@ public:
 		actionOpen_project->setObjectName(QStringLiteral("actionOpen_project"));
 		actionSave_Project = new QAction(A4DClass);
 		actionSave_Project->setObjectName(QStringLiteral("actionSave_Project"));
-		actionWire_Frame = new QAction(A4DClass);
-		actionWire_Frame->setObjectName(QStringLiteral("actionWire_Frame"));
+		actionShaded = new QAction(A4DClass);
+		actionShaded->setObjectName(QStringLiteral("actionShaded"));
 		actionWireframe = new QAction(A4DClass);
 		actionWireframe->setObjectName(QStringLiteral("actionWireframe"));
 		actionShaded_Wireframe = new QAction(A4DClass);
@@ -160,7 +160,7 @@ public:
 		menu->addAction(actionSave_Project);
 		menu_2->addAction(menuShading_Mode->menuAction());
 		menu_2->addAction(menuCull_Mode->menuAction());
-		menuShading_Mode->addAction(actionWire_Frame);
+		menuShading_Mode->addAction(actionShaded);
 		menuShading_Mode->addAction(actionWireframe);
 		menuShading_Mode->addAction(actionShaded_Wireframe);
 		menuCull_Mode->addAction(actionNone);
@@ -189,7 +189,7 @@ public:
 		actionNew_project->setText(QApplication::translate("A4DClass", "New Project", Q_NULLPTR));
 		actionOpen_project->setText(QApplication::translate("A4DClass", "Open Project", Q_NULLPTR));
 		actionSave_Project->setText(QApplication::translate("A4DClass", "Save Project", Q_NULLPTR));
-		actionWire_Frame->setText(QApplication::translate("A4DClass", "Shaded", Q_NULLPTR));
+		actionShaded->setText(QApplication::translate("A4DClass", "Shaded", Q_NULLPTR));
 		actionWireframe->setText(QApplication::translate("A4DClass", "Wireframe", Q_NULLPTR));
 		actionShaded_Wireframe->setText(QApplication::translate("A4DClass", "Shaded Wireframe", Q_NULLPTR));
 		actionCW->setText(QApplication::translate("A4DClass", "CW", Q_NULLPTR));

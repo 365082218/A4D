@@ -74,7 +74,11 @@ public:
 		}
 	}
 	void EngineRender();
+	void InitHandler();
+	void WireFrame(bool b);
+	void Shaded(bool trigger);
 	bool event(QEvent *);
+	void paintEvent(QPaintEvent *event);
 private:
 	Ui::A4DClass ui;
 };

@@ -92,7 +92,7 @@
      <property name="title">
       <string>Shading Mode</string>
      </property>
-     <addaction name="actionWire_Frame"/>
+     <addaction name="actionShaded"/>
      <addaction name="actionWireframe"/>
      <addaction name="actionShaded_Wireframe"/>
     </widget>
@@ -168,7 +168,10 @@
     <string>Save Project</string>
    </property>
   </action>
-  <action name="actionWire_Frame">
+  <action name="actionShaded">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Shaded</string>
    </property>
