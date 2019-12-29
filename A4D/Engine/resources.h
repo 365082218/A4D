@@ -1,5 +1,5 @@
 #pragma once
-#include "Time.h"
+#include "EventDispatcher.h"
 class Resource :
 	public EventDispatcher
 {
@@ -39,9 +39,5 @@ public:
 
 	}
 
-	virtual void activeResource(bool force = false){
-		lastUseFrameCount = Time::frame;
-		if (!destroyed && loaded && (released || force))
-			recreateResource();
-	}
+	virtual void activeResource(bool force = false);
 };

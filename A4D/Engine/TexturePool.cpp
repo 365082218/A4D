@@ -1,7 +1,20 @@
 #include "stdafx.h"
 #include "TexturePool.h"
-
-
+#include "../A4D.h"
+#include "W4DCommon.h"
+#include "Node.h"
+#include "Component.h"
+#include "Transform.h"
+#include "GameObject.h"
+#include "global.h"
+#include "WGraphics.h"
+#include "TexturePool.h"
+#include "GameWorld.h"
+#include "Console.h"
+#include "WInputModel.h"
+#include "MouseMgr.h"
+#include "Pool.h"
+#include "Time.h"
 TexturePool::TexturePool()
 {
 }

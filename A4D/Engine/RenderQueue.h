@@ -5,20 +5,14 @@ class RenderState;
 class RenderQueue
 {
 public:
-	RenderQueue(Scene * scene);
+	RenderQueue();
 	~RenderQueue();
 	static int _uniqueIDCounter;
 	int _id;
-	/**@private */
 	bool _needSort;
-	/**@private */
 	vector<RenderElement*> _renderElements;
-	/**@private */
 	vector<RenderElement*> _dynamicBatchCombineRenderElements;
-	/**@private */
 	vector<RenderElement*> _finalElements;
-	/**@private */
-	Scene * _scene;
 	void _clearRenderElements();
 	void _preRender(RenderState * rs);
 	void _addRenderElement(RenderElement * element);

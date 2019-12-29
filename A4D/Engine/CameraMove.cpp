@@ -1,8 +1,15 @@
 #include "stdafx.h"
 #include "CameraMove.h"
-#include "object.h"
-
+#include <QtGui/qevent.h>
+#include <d3d9.h>
+#include <d3dx9tex.h>
+#include "Pool.h"
+#include "Time.h"
+#include "GameObject.h"
+#include "Transform.h"
+#include "Layer.h"
 //ÉãÏñ»ú¿ØÖÆ½Å±¾
+
 REGISTER_CLASS(CameraMove)
 CameraMove::CameraMove()
 {
@@ -69,12 +76,12 @@ void CameraMove::OnMouseUp(MouseEvent * context)
 
 }
 
-void CameraMove::OnEnable(Event * context)
+void CameraMove::OnEnable(AEvent * context)
 {
 	__super::OnEnable(context);
 }
 
-void CameraMove::OnDisable(Event * context)
+void CameraMove::OnDisable(AEvent * context)
 {
 	__super::OnDisable(context);
 }

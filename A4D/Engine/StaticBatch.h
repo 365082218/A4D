@@ -1,6 +1,4 @@
 #pragma once
-#include "RenderElement.h"
-#include "BaseMaterial.h"
 class RenderElement;
 class BaseMaterial;
 class StaticBatch

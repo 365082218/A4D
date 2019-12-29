@@ -1,6 +1,9 @@
 #pragma once
 class BaseMaterial;
 class StaticBatch;
+class Render;
+class BaseMesh;
+class GameObject;
 class RenderElement
 {
 public:

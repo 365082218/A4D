@@ -1,7 +1,7 @@
 #pragma once
-#include "Node.h"
 //简单的2D图片绘制系统，仅支持基本的UI贴到窗口，直接用ID3DXSprite绘制
-
+#include <d3dx9tex.h>
+#include "Node.h"
 class Style
 {
 	float alpha;

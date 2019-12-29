@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "Node.h"
 #include "Sprite.h"
 
 

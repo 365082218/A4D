@@ -1,6 +1,7 @@
 #include "stdafx.h"
+#include "GameObject.h"
+#include "EventDispatcher.h"
 #include "Component.h"
-#include "object.h"
 
 Component::Component()
 {
@@ -16,8 +17,8 @@ void Component::Awake(GameObject * pOwner)
 {
 	gameObject = pOwner;
 	components = &pOwner->components;
-	pOwner->on(EventId::ComponentEnable, this, (LPHandler)&Component::OnEnable, NULL, false);
-	pOwner->on(EventId::ComponentDisable, this, (LPHandler)&Component::OnDisable, NULL, false);
+	pOwner->on(EventId::ComponentEnable, this, (LPHandler)&Component::OnEnable, false);
+	pOwner->on(EventId::ComponentDisable, this, (LPHandler)&Component::OnDisable, false);
 }
 
 void Component::addComponent(Component * pCom)
@@ -43,12 +44,12 @@ void Component::removeComponent(size_t ComponentId)
 	gameObject->RemoveComponent(ComponentId);
 }
 
-void Component::OnEnable(Event * context)
+void Component::OnEnable(AEvent * context)
 {
 
 }
 
-void Component::OnDisable(Event * context)
+void Component::OnDisable(AEvent * context)
 {
 
 }

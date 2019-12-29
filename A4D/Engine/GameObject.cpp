@@ -1,20 +1,19 @@
 #include "stdafx.h"
+#include "Node.h"
 #include "GameObject.h"
-#include "Component.h"
-#include "Transform.h"
-#include "Camera.h"
-#include "SkcRender.h"
+#include "EventDispatcher.h"
+#include "Scene.h"
 #include "SceneManager.h"
-#include "MeshFilter.h"
-#include "SkcMeshFilter.h"
-
+#include "Transform.h"
 GameObject::GameObject(std::string Name):AObject(Name)
 {
+	m_pScene = NULL;
 	transform = (Transform*)addComponent(typeid(Transform).hash_code());
 	Scene * pActiveScene = SceneManager::GetActiveScene();
-	pActiveScene->addChild(transform);
+	pActiveScene->addChild(this);
 	m_pScene = pActiveScene;
-	this->_activeHierarchy(NULL);
+	activeSelf = true;
+	activeInHierarchy = true;
 }
 
 GameObject::~GameObject()
@@ -22,35 +21,35 @@ GameObject::~GameObject()
 
 }
 
-void GameObject::_activeHierarchy(Event * context)
+void GameObject::ActiveHierarchy()
 {
-	activeSelf = true;
-	onevent(EventId::ComponentEnable, NULL);
-	for (int i = 0, n = this->transform->m_pChild->size(); i < n; i++) {
-		Transform* child = (Transform*)this->transform->m_pChild->at(i);
-		if (child->gameObject->activeSelf)
-			child->_activeHierarchy(NULL);
+	if (this->transform->m_pParent != NULL)
+		activeInHierarchy = activeSelf && ((Transform*)this->transform->m_pParent)->gameObject->activeInHierarchy;
+	else
+		activeInHierarchy = activeSelf;
+	if (activeInHierarchy)
+	{
+		for (int i = 0, n = this->transform->m_pChild->size(); i < n; i++) {
+			Transform* child = (Transform*)this->transform->m_pChild->at(i);
+			if (child->gameObject->activeSelf)
+				child->gameObject->ActiveHierarchy();
+		}
 	}
 }
 
-bool GameObject::activeInHierarchy()
+void GameObject::InActiveHierarchy()
 {
-	if (this->transform->m_pParent == NULL)
-		return this->activeSelf;
-	Transform * trans = dynamic_cast<Transform*>(this->transform->m_pParent);
-	return trans->gameObject->activeInHierarchy() && this->activeSelf;
-}
-bool _active;
-
-
-void GameObject::_inActiveHierarchy(Event * context)
-{
-	_active = false;
-	onevent(EventId::ComponentDisable, NULL);
-	for (int i = 0, n = this->transform->m_pChild->size(); i < n; i++) {
-		Transform* child = (Transform*)this->transform->m_pChild->at(i);
-		if (child->gameObject->activeSelf)
-			child->_inActiveHierarchy(NULL);
+	if (this->transform->m_pParent != NULL)
+		activeInHierarchy = activeSelf && ((Transform*)this->transform->m_pParent)->gameObject->activeInHierarchy;
+	else
+		activeInHierarchy = activeSelf;
+	if (!activeInHierarchy)
+	{
+		for (int i = 0, n = this->transform->m_pChild->size(); i < n; i++) {
+			Transform* child = (Transform*)this->transform->m_pChild->at(i);
+			if (child->gameObject->activeSelf)
+				child->gameObject->InActiveHierarchy();
+		}
 	}
 }
 
@@ -72,9 +71,11 @@ void GameObject::addComponent(Component * pCom)
 {
 	components.push_back(pCom);
 	pCom->Awake(this);
-	Event sender;
-	sender.psender = pCom;
-	onevent(EventId::ComponentEnable, &sender);
+	AEvent sender;
+	sender.pComponent = pCom;
+	sender.pGameObject = this;
+	sender.pScene = this->m_pScene;
+	fire(EventId::ComponentEnable, &sender);
 }
 
 Component * GameObject::getComponent(size_t ComponentId)
@@ -123,7 +124,7 @@ void GameObject::RemoveComponent(Component * com)
 
 void GameObject::OnPreRender()
 {
-	if (activeInHierarchy())
+	if (activeInHierarchy)
 	{
 		vector<Node*>::iterator it = transform->m_pChild->begin();
 		for (; it != transform->m_pChild->end(); it++)
@@ -136,7 +137,7 @@ void GameObject::OnPreRender()
 
 void GameObject::OnPostRender()
 {
-	if (activeInHierarchy())
+	if (activeInHierarchy)
 	{
 		vector<Node*>::iterator it = transform->m_pChild->begin();
 		for (; it != transform->m_pChild->end(); it++)
@@ -149,7 +150,7 @@ void GameObject::OnPostRender()
 
 void GameObject::update()
 {
-	if (this->activeInHierarchy())
+	if (activeInHierarchy)
 	{
 		updateComponents();
 		lateUpdateComponents();

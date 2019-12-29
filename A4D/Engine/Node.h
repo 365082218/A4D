@@ -1,9 +1,4 @@
 #pragma once
-#include <vector>
-#include "EventDispatcher.h"
-using namespace std;
-class Scene;
-class EventDispatcher;
 class Node
 {
 public:

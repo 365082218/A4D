@@ -1,13 +1,34 @@
 #include "stdafx.h"
+#include "Component.h"
+#include "EventDispatcher.h"
+#include "Node.h"
 #include "Render.h"
 #include "SkcRender.h"
-#include "GeometryFilter.h"
+#include "RenderState.h"
+#include "Transform.h"
+#include "GameObject.h"
+#include "Scene.h"
+#include "MeshFilter.h"
 #include "SkcMeshFilter.h"
-#include "SkcMesh.h"
-#include "Component.h"
-#include "RenderElement.h"
+#include "BaseMaterial.h"
 #include "Material.h"
-#include "object.h"
+#include "RenderElement.h"
+#include "StaticBatch.h"
+#include "RenderQueue.h"
+#include "RenderTexture.h"
+#include "BoundFrustum.h"
+#include "DynamicBatchManager.h"
+#include "WGraphics.h"
+#include "Camera.h"
+#include "BoundBox.h"
+#include "BoundSphere.h"
+#include "Pool.h"
+#include "Time.h"
+#include "resources.h"
+#include "Vector3.h"
+#include "BaseMesh.h"
+#include "Layer.h"
+
 REGISTER_CLASS(SkcRender)
 SkcRender::SkcRender()
 {
@@ -25,29 +46,29 @@ void SkcRender::Awake(GameObject * pOwner)
 }
 
 //相关组件激活
-void SkcRender::OnEnable(Event * context)
+void SkcRender::OnEnable(AEvent * context)
 {
 	__super::OnEnable(context);
 	if (context != NULL)
 	{
-		if (context->psender->type_id() == typeid(SkcMeshFilter).hash_code())
+		if (context->pComponent->type_id() == typeid(SkcMeshFilter).hash_code())
 		{
 			if (this->meshFilter != NULL)
 				this->meshFilter->offAll();
-			this->meshFilter = (SkcMeshFilter*)context->psender;
+			this->meshFilter = dynamic_cast<SkcMeshFilter*>(context->pComponent);
 			if (this->meshFilter != NULL)
-				this->meshFilter->on(EventId::MeshChanged, (EventDispatcher*)this, (LPHandler)&EventDispatcher::OnMeshChanged, NULL, false);
+				this->meshFilter->on(EventId::MeshChanged, (EventDispatcher*)this, (LPHandler)&EventDispatcher::OnMeshChanged, false);
 		}
 	}
 }
 
 //相关组件关闭/卸载
-void SkcRender::OnDisable(Event * context)
+void SkcRender::OnDisable(AEvent * context)
 {
 	__super::OnDisable(context);
 	if (context != NULL)
 	{
-		if (context->psender->type_id() == typeid(SkcMeshFilter).hash_code())
+		if (context->pComponent->type_id() == typeid(SkcMeshFilter).hash_code())
 		{
 			if (this->meshFilter != NULL)
 				this->meshFilter->offAll();

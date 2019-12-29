@@ -1,16 +1,6 @@
 #pragma once
-#include <iostream>  
-#include <vector>
-#include <map>
-#include <list>
+#include "BaseMesh.h"
 #include "BoneWeight.h"
-#include "MaterialUnit.h"
-#include "W4DCommon.h"
-using namespace std;
-#include <vector>
-#include "SubMesh.h"
-struct D3DXVECTOR3;
-struct Vertex;
 class PrimitiveMesh :public BaseMesh
 {
 public:
@@ -123,6 +113,9 @@ public:
 	void getPositions();
 };
 
+class MaterialUnit;
+class BoneWeight;
+class SubMesh;
 class Mesh:public BaseMesh
 {
 public:

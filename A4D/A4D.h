@@ -1,32 +1,20 @@
 #pragma once
-
 #include <QtWidgets/QMainWindow>
 #include <QtGui/qevent.h>
 #include "ui_A4D.h"
-
-#include <d3d9.h>
-#include <mmsystem.h>
-#include <d3dx9core.h>
-#include "./Engine/WGraphics.h"
-#include "./Engine/WInputModel.h"
-#include "Engine/GameWorld.h"
-#include "Engine/TexturePool.h"
-#include "Engine/Console.h"
-#include "Engine/Time.h"
-#include "Engine/MouseMgr.h"
-class InputMgr;
-class Mesh;
-class Camera;
+#include "Engine/EventDispatcher.h"
 class Scene;
+class Camera;
+class WGraphics;
 class GameWorld;
 class TexturePool;
+class InputMgr;
 class Console;
 class Time;
 class MouseMgr;
-class A4D : public QMainWindow
+class A4D : public QMainWindow, public EventDispatcher
 {
 	Q_OBJECT
-
 public:
 	A4D(QWidget *parent = Q_NULLPTR);
 	~A4D();
@@ -63,22 +51,21 @@ public:
 	MouseMgr * pMouse;
 	bool EditorPlaying;
 	void EditorUpdate();
-	void ChangePlaying(bool play)
-	{
-		EditorPlaying = play;
-		if (play)
-			pGraphs->InitGameDevice();
-		else
-		{
-			pGraphs->ReleaseGameDevice();
-		}
-	}
+	void ChangePlaying(bool play);
 	void EngineRender();
 	void InitHandler();
 	void WireFrame(bool b);
 	void Shaded(bool trigger);
 	bool event(QEvent *);
 	void paintEvent(QPaintEvent *event);
+	void InitListener();
+	map<int, Transform*> TransformHash;
+	map<int, QTreeWidgetItem *> TreeItemHash;
+	//dispatcher
+	void OnHierarchyChanged(AEvent * evt);
+
+	void OnEnable(AEvent * context);
+	void OnDisable(AEvent * context);
 private:
 	Ui::A4DClass ui;
 };

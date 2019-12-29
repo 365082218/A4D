@@ -1,6 +1,7 @@
 #pragma once
+#include "EventDispatcher.h"
 class GameObject;
-class EventDispatcher;
+class AEvent;
 class Component:public EventDispatcher
 {
 protected:
@@ -13,8 +14,8 @@ public:
 	Component * getComponent(size_t ComponentId);
 	void removeComponent(Component * pCom);
 	void removeComponent(size_t ComponentId);
-	virtual void OnEnable(Event * context);
-	virtual void OnDisable(Event * context);
+	virtual void OnEnable(AEvent * context);
+	virtual void OnDisable(AEvent * context);
 	virtual void PreUpdate();
 	virtual void Update();
 	virtual void LateUpdate();

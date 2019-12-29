@@ -1,6 +1,5 @@
 ﻿#include "stdafx.h"
 #include "Console.h"
-#include <iostream>
 #pragma warning(disable:4996)
 Console::Console()
 {

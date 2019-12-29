@@ -1,6 +1,9 @@
 #pragma once
-#include "Material.h"
+class RenderElement;
 class Material;
+class RenderElement;
+class Scene;
+
 class DynamicBatchManager
 {
 public:

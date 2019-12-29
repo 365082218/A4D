@@ -1,11 +1,5 @@
 #pragma once
-#include <iostream>  
-#include <vector>
-#include <map>
-#include <list>
 #include "Mesh.h"
-#include "SubMesh.h"
-
 class SkcMesh:public Mesh
 {
 public:

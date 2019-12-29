@@ -1,4 +1,7 @@
 #pragma once
+#include "Render.h"
+class Mesh;
+class RenderState;
 class MeshRender:public Render
 {
 public:

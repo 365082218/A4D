@@ -1,6 +1,7 @@
 #include "stdafx.h"
-#include "resources.h"
-
+#include "Resources.h"
+#include "Pool.h"
+#include "Time.h"
 int Resource::_uniqueIDCounter = 0;
 map<int, Resource*> Resource::_idResourcesMap;
 Resource::Resource()
@@ -20,4 +21,10 @@ Resource::Resource()
 
 Resource::~Resource()
 {
+}
+
+void Resource::activeResource(bool force) {
+	lastUseFrameCount = Time::frame;
+	if (!destroyed && loaded && (released || force))
+		recreateResource();
 }

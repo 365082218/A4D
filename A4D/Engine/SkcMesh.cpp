@@ -1,17 +1,27 @@
 #include "stdafx.h"
+#include "EventDispatcher.h"
+#include "resources.h"
+#include "BaseMesh.h"
+#include "Mesh.h"
 #include "SkcMesh.h"
+#include "RenderState.h"
+#include "MaterialUnit.h"
+#include "BoneWeight.h"
 #include "../A4D.h"
 #include "W4DCommon.h"
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
-#include <list>
-#include <map>
+#include "Node.h"
+#include "Component.h"
+#include "Transform.h"
+#include "GameObject.h"
 #include "global.h"
-#include "Mesh.h"
-#include <D3D10.h>
-
+#include "WGraphics.h"
+#include "TexturePool.h"
+#include "GameWorld.h"
+#include "Console.h"
+#include "WInputModel.h"
+#include "MouseMgr.h"
+#include "Pool.h"
+#include "Time.h"
 SkcMesh::SkcMesh()
 {
 }

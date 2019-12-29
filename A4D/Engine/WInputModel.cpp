@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "EventDispatcher.h"
 #include "WInputModel.h"
 
 
@@ -27,8 +28,10 @@ void InputMgr::OnKeyDown(unsigned int keyCode)
 	key[keyCode] = true;
 	KeyEvent context;
 	context.keyCode = keyCode;
-	context.psender = NULL;
-	this->onevent(EventId::KeyDown, &context);
+	context.pComponent = NULL;
+	context.pGameObject = NULL;
+	context.pScene = NULL;
+	this->fire(EventId::KeyDown, &context);
 }
 
 void InputMgr::OnKeyUp(unsigned int keyCode)
@@ -36,8 +39,10 @@ void InputMgr::OnKeyUp(unsigned int keyCode)
 	key[keyCode] = false;
 	KeyEvent context;
 	context.keyCode = keyCode;
-	context.psender = NULL;
-	this->onevent(EventId::KeyUp, &context);
+	context.pComponent = NULL;
+	context.pGameObject = NULL;
+	context.pScene = NULL;
+	this->fire(EventId::KeyUp, &context);
 }
 
 bool InputMgr::IsKeyDown(unsigned int keyCode)

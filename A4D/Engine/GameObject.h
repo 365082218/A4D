@@ -1,12 +1,9 @@
 #pragma once
-#include "Layer.h"
-#include "EventDispatcher.h"
-#include "Transform.h"
 #include "AObject.h"
+#include "EventDispatcher.h"
 class Layer;
-class EventDispatcher;
+class Scene;
 class Transform;
-class AObject;
 class Component;
 class GameObject:public AObject, public EventDispatcher
 {
@@ -21,20 +18,22 @@ public:
 	Component * getComponent(size_t ComponentId);
 	void RemoveComponent(size_t ComponentId);
 	void RemoveComponent(Component * pCom);
-	void _activeHierarchy(Event * context);
-	void _inActiveHierarchy(Event * context);
+	void ActiveHierarchy();//激活此层级.
+	void InActiveHierarchy();//反激活此层级.
 	//void _addSelfRenderObjects();
 	//void _clearSelfRenderObjects();
 	Transform * transform;
 	void OnPreRender();
 	void OnPostRender();
 	void update();
+	
+	Layer * layer;
+	bool isStatic;//是否静态物件
+	bool activeSelf;//自身是否激活
+	bool activeInHierarchy;//层级递归后是否激活
+	Scene * m_pScene;
+protected:
 	void updateComponents();
 	void lateUpdateComponents();
-	Layer layer;
-	bool isStatic;//是否静态物件
-	bool activeSelf;
-	bool activeInHierarchy();
-	Scene * m_pScene;
 };
 

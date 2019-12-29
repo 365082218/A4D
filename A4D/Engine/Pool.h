@@ -1,5 +1,4 @@
 #pragma once
-#include<vector>
 using namespace std;
 template<class T>
 class Pool
@@ -14,11 +13,11 @@ public:
 
 	}
 	vector<T> items;
-	void push(T handler)
+	void recover(T handler)
 	{
 		items.push_back(handler);
 	}
-	T pop()
+	T alloc()
 	{
 		int i = items.size();
 		if (i != 0)

@@ -1,6 +1,4 @@
 #pragma once
-#include <iostream>
-using namespace std;
 class AObject
 {
 public:
@@ -11,6 +9,7 @@ public:
 	static void Destroy(AObject * object);
 	static void DestroyImmediate(AObject * object);
 	int GetInstanceId();
+	static int Instance;
 private:
 	int instance;
 };

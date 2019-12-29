@@ -1,6 +1,7 @@
 #pragma once
-#include "GameObject.h"
-class Component;
+#include "Component.h"
+#include "Node.h"
+class Node;
 class GameObject;
 class Transform:public Component, public Node
 {
@@ -20,7 +21,7 @@ public:
 	D3DXMATRIX localMatrix;
 	D3DXMATRIX _worldMatrix;
 	bool worldUpdate;
-	D3DXMATRIX * worldMatrix()
+	__inline D3DXMATRIX * worldMatrix()
 	{
 		if (worldUpdate)
 		{
@@ -89,7 +90,7 @@ public:
 	D3DXVECTOR3 up;
 	D3DXVECTOR3 forward;
 	D3DXVECTOR3 right;
-	size_t type_id()
+	__inline size_t type_id()
 	{
 		return typeid(Transform).hash_code();
 	}

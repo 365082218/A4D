@@ -1,7 +1,9 @@
 #pragma once
-#include "RenderState.h"
-#include "Vector3.h"
 #include "resources.h"
+#include "Vector3.h"
+class RenderState;
+class BoundSphere;
+class BoundBox;
 class BaseMesh: public Resource
 {
 public:
@@ -11,7 +13,6 @@ public:
 	LPDIRECT3DTEXTURE9 * pTexture;
 	BoundSphere * _boundingSphere;
 	BoundBox * _boundingBox;
-
 	vector<Vector3> position;
 	/**
 	*获取网格顶点,请重载此方法。

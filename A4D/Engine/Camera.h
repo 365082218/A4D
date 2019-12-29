@@ -1,10 +1,9 @@
 #pragma once
-#include "../A4D.h"
-class Component;
+class WGraphics;
+class RenderState;
 class RenderTexture;
 class BoundFrustum;
-class Transform;
-class A4D;
+#include "Component.h"
 class Camera :public Component
 {
 public:
@@ -32,14 +31,14 @@ public:
 	//CLEARFLAG_NONE = 3;²»²Α³ύ
 	D3DCOLOR background;
 	int id;
-	void _renderCamera(IDirect3DDevice9 * pDevice, RenderState * rs, Scene * pScene);
+	void _renderCamera(IDirect3DDevice9 * pDevice, RenderState * rs, WGraphics * pGraphics);
 	void _prepareCameraViewProject(D3DMATRIX * pViewM, D3DMATRIX * pProjM);
 	void _prepareCameraToRender();
 	RenderTexture * _renderTarget;
 	bool useOcclusionCulling;
 	BoundFrustum * boundFrustum;//Χ¶½ΨΜε
-	void OnEnable(Event * context);
-	void OnDisable(Event * context);
+	void OnEnable(AEvent * context);
+	void OnDisable(AEvent * context);
 	size_t type_id()
 	{
 		return typeid(Camera).hash_code();

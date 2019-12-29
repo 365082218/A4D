@@ -1,9 +1,4 @@
 #include "stdafx.h"
-#include <iostream>
-#include <windows.h>
-#include <tchar.h>
-#include <iomanip>
-using namespace std;
 #include "DirectoryWatcher.h"
 
 DirectoryWatcher::DirectoryWatcher()

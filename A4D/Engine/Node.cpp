@@ -1,6 +1,19 @@
 #include "stdafx.h"
 #include "Node.h"
-
+#include "Component.h"
+#include "EventDispatcher.h"
+#include "Transform.h"
+#include "Scene.h"
+#include "GameObject.h"
+#include "GameWorld.h"
+#include "TexturePool.h"
+#include "WInputModel.h"
+#include "Console.h"
+#include "Pool.h"
+#include "Time.h"
+#include "MouseMgr.h"
+#include "WGraphics.h"
+#include "../A4D.h"
 
 Node::Node()
 {
@@ -25,6 +38,21 @@ void Node::addChild(Node * child)
 	}
 	m_pChild->push_back(dynamic_cast<Transform*>(child));
 	child->setParent(dynamic_cast<Transform*>(this));
+#if (EngineEditor)
+	HierarchyChangeEvent evt;
+	evt.pComponent = dynamic_cast<Transform*>(this);
+	if (evt.pComponent == NULL)
+		evt.pGameObject = NULL;
+	else
+		evt.pGameObject = dynamic_cast<Transform*>(evt.pComponent)->gameObject;
+	if (evt.pComponent != NULL)
+		evt.pScene = evt.pGameObject->m_pScene;
+	else
+		evt.pScene = dynamic_cast<Scene*>(this);
+	evt.transform = dynamic_cast<Transform*>(child);
+	evt.type = AEventType::Add;
+	A4D::getInstance()->fire(EventId::HierarchyChanged, &evt);
+#endif
 }
 
 void Node::setParent(Node * parent)

@@ -1,8 +1,9 @@
 #include "stdafx.h"
+#include "Node.h"
+#include "transform.h"
+#include <d3dx9tex.h>
 #include "Component.h"
-#include "GameObject.h"
-#include "Transform.h"
-#include "object.h"
+#include "EventDispatcher.h"
 REGISTER_CLASS(Transform)
 void Transform::SetPosition(float x, float y, float z)
 {

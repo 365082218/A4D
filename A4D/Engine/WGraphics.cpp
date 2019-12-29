@@ -1,15 +1,34 @@
 #include "stdafx.h"
-#include "Mesh.h"
+#include "WGraphics.h"
 #include "SkcRender.h"
-#include "MeshRender.h"
-#include "SceneManager.h"
+#include "RenderElement.h"
+#include "Scene.h"
 #include "SkcMeshFilter.h"
+#include "Camera.h"
+#include "MeshRender.h"
+#include "Mesh.h"
+#include "../A4D.h"
+#include "RenderState.h"
+#include "RenderQueue.h"
+#include "FrustumCulling.h"
+#include "W4DCommon.h"
+#include "Node.h"
+#include "Component.h"
+#include "Transform.h"
+#include "GameObject.h"
+#include "global.h"
+#include "TexturePool.h"
 #include "GameWorld.h"
-
-using namespace std;
+#include "Console.h"
+#include "WInputModel.h"
+#include "MouseMgr.h"
+#include "Pool.h"
+#include "Time.h"
 WGraphics::WGraphics()
 {
 	pGameDevice = NULL;
+	state = new RenderState();
+	_cullingRendersLength = 0;
 }
 
 void WGraphics::LoadSkc(char * file)
@@ -27,7 +46,7 @@ void WGraphics::LoadSkc(char * file)
 */
 void WGraphics::Setup()
 {
-	pEditScene = new Scene("SampleScene");
+	pScene.push_back(new Scene("SampleScene"));
 	for (int i = 0; i < 1; i++)
 	{
 		char buff[20];
@@ -104,13 +123,13 @@ WGraphics::~WGraphics()
 {
 }
 
-bool WGraphics::Init(int width, int height, HWND hWnd, bool fullscreen)
+bool WGraphics::Init(int _width, int _height, HWND hWnd, bool fullscreen)
 {
 	HRESULT hr = S_FALSE;
 	D3DPRESENT_PARAMETERS d3dpp;
 	memset(&d3dpp, 0, sizeof(d3dpp));
-	d3dpp.BackBufferWidth = width;
-	d3dpp.BackBufferHeight = height;
+	d3dpp.BackBufferWidth = _width;
+	d3dpp.BackBufferHeight = _height;
 	d3dpp.BackBufferFormat = D3DFMT_UNKNOWN; //pixel format
 	d3dpp.BackBufferCount = 1;
 	d3dpp.MultiSampleType = D3DMULTISAMPLE_NONE;
@@ -139,7 +158,8 @@ bool WGraphics::Init(int width, int height, HWND hWnd, bool fullscreen)
 			return false;
 		}
 	}
-
+	width = _width;
+	height = _height;
 	return true;
 }
 
@@ -209,6 +229,20 @@ void WGraphics::Loop()
 	//}
 }
 
+void WGraphics::UpdateGameObject()
+{
+	std::vector<Scene*>::iterator iter = pScene.begin();
+	while (iter != pScene.end())
+	{
+		std::vector<GameObject*>::iterator iter2 = (*iter)->rootGameObjects.begin();
+		while (iter2 != (*iter)->rootGameObjects.end())
+		{
+			(*iter2)->update();
+			iter2++;
+		}
+		iter++;
+	}
+}
 
 void WGraphics::EditorUpdate()
 {
@@ -220,15 +254,46 @@ void WGraphics::EditorUpdate()
 	{
 		pEditorDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0XFFFFFFFF, 1.0f, 0);
 		pEditorDevice->BeginScene();
-		pEditScene->OnPreRender();
-		pEditScene->updateScene();
-		pEditScene->render();
-		pEditScene->OnPostRender();
+		UpdateGameObject();
+		Draw();
 		A4D::getInstance()->pWorld->Draw();
 		pEditorDevice->EndScene();
 		pEditorDevice->Present(0, 0, 0, 0);
 	}
 }
+
+void WGraphics::Draw()
+{
+	//遍历摄像机，
+	for (int i = 0; i < this->cameraPool.size(); i++)
+	{
+		this->cameraPool[i]->_renderCamera(A4D::getInstance()->Graphics()->pEditorDevice, this->state, this);
+	}
+}
+
+//当该场景准备渲染前，准备所有要渲染的对象
+void WGraphics::RegisterCamera(Camera * pCamera)
+{
+	if (pCamera == NULL)
+		return;
+	vector<Camera*>::iterator it = std::find(cameraPool.begin(), cameraPool.end(), pCamera);
+	if (it == cameraPool.end())
+		cameraPool.push_back(pCamera);
+}
+
+void WGraphics::UnregisterCamera(Camera * pCamera)
+{
+	std::vector<Camera*>::iterator it = std::find(cameraPool.begin(), cameraPool.end(), pCamera);
+	if (it != cameraPool.end())
+		cameraPool.erase(it);
+}
+
+void WGraphics::RegisterRender(Render * pRender)
+{
+	std::vector<Render*>::iterator it = std::find(renderPool.begin(), renderPool.end(), pRender);
+	renderPool.push_back(pRender);
+}
+
 
 void WGraphics::ShutDown()
 {
@@ -237,4 +302,119 @@ void WGraphics::ShutDown()
 		pEditorDevice->Release();
 		pEditorDevice = 0;
 	}
+}
+
+void WGraphics::_preRenderScene(IDirect3DDevice9 * pDevice, RenderState * rs, BoundFrustum * pFrustum)
+{
+	D3DXMATRIX * view = rs->_viewMatrix;
+	D3DXMATRIX * projection = rs->_projectionMatrix;
+	D3DXMATRIX * projectionView = rs->_projectionViewMatrix;
+	int i = 0, iNum = 0;
+	Camera * camera = rs->camera;
+	if (camera->useOcclusionCulling) {
+		//if (treeRoot)
+		//	FrustumCulling.renderObjectCullingOctree(boundFrustum, this, camera, view, projection, projectionView);
+		//else
+		//	FrustumCulling.renderObjectCulling(boundFrustum, this, camera, view, projection, projectionView);
+	}
+	else
+		FrustumCulling::renderObjectCullingNoBoundFrustum(this, camera, view, projection, projectionView);
+	for (i = 0, iNum = this->_quenes.size(); i < iNum; i++)
+	{
+		if (_quenes[i] != NULL)
+		{
+			_quenes[i]->_preRender(state);
+		}
+	}
+}
+
+void WGraphics::addFrustumCullingObject(Render * renderObject)
+{
+	//if (this.treeRoot) {
+	//	this.addTreeNode(renderObject);
+	//}
+	//else {
+	if (_cullingRendersLength == _cullingRenders.size())
+		_cullingRenders.push_back(renderObject);
+	else
+		_cullingRenders[_cullingRendersLength] = renderObject;
+	renderObject->_indexInSceneFrustumCullingObjects = _cullingRendersLength++;
+	//}
+}
+
+void WGraphics::removeFrustumCullingObject(Render * renderObject)
+{
+	//if (treeRoot) {
+	//	removeTreeNode(renderObject);
+	//}
+	//else {
+	//	this._cullingRendersLength--;
+	//	var indexInSceneFrustumCullingObjects = renderObject->_indexInSceneFrustumCullingObjects;
+	//	if (indexInSceneFrustumCullingObjects != = this._cullingRendersLength) {
+	//		var endRender = this._cullingRenders[this._cullingRendersLength];
+	//		this._cullingRenders[indexInSceneFrustumCullingObjects] = endRender;
+	//		endRender._indexInSceneFrustumCullingObjects = indexInSceneFrustumCullingObjects;
+	//		renderObject._indexInSceneFrustumCullingObjects = -1;
+	//	}
+	//}
+}
+
+void WGraphics::_clear(IDirect3DDevice9 * pDevice, RenderState * rs)
+{
+
+}
+
+void WGraphics::_renderScene(IDirect3DDevice9 * pDevice, RenderState * rs)
+{
+	Camera * camera = rs->camera;
+	rs->pDevice = pDevice;
+	//rs->scene = this;
+	int i = 0, n = 0;
+	RenderQueue * queue;
+	for (i = 0; i < 2; i++) {
+		if (this->_quenes.size() > i)
+		{
+			queue = this->_quenes[i];
+			if (queue) {
+				camera->_renderTarget ? queue->_render(state, true) : queue->_render(state, false);
+			}
+		}
+	}
+	if (camera->clearFlag == /*laya.d3.core.BaseCamera.CLEARFLAG_SKY*/1) {
+		//var sky = camera.sky;
+		//if (sky) {
+		//	WebGLContext.setCullFace(gl, false);
+		//	WebGLContext.setDepthFunc(gl,/*laya.webgl.WebGLContext.LEQUAL*/0x0203);
+		//	WebGLContext.setDepthMask(gl, false);
+		//	sky._render(state);
+		//	WebGLContext.setDepthFunc(gl,/*laya.webgl.WebGLContext.LESS*/0x0201);
+		//	WebGLContext.setDepthMask(gl, true);
+		//}
+	}
+	//for (i = 2, n = this._quenes.length; i < n; i++) {
+	//	queue = this._quenes[i];
+	//	if (queue) {
+	//		queue._sortAlpha(state.camera.transform.position);
+	//		camera.renderTarget ? queue._render(state, true) : queue._render(state, false);
+	//	}
+	//}
+}
+
+void WGraphics::_postRenderUpdateComponents(RenderState * rs)
+{
+
+}
+
+RenderQueue * WGraphics::getRenderQueue(int index)
+{
+	int offset = index < 3000 ? 1 : 2;
+	if (_quenes.size() == 0)
+	{
+		for (int i = 0; i < 3; i++)
+			_quenes.push_back(NULL);
+	}
+	RenderQueue * p = _quenes.at(offset);
+	if (p == NULL)
+		_quenes[offset] = new RenderQueue();
+	return _quenes.at(offset);
 }

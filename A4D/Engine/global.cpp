@@ -1,8 +1,4 @@
 #include "stdafx.h"
-
-using namespace std;
-#include "global.h"
-
 vector<string> split(const string& str, const string& delim)
 {
 	vector<string> res;

@@ -1,6 +1,6 @@
 #include "stdafx.h"
+#include "Scene.h"
 #include "StaticBatch.h"
-
 
 StaticBatch::StaticBatch()
 {

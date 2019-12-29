@@ -1,4 +1,5 @@
 #pragma once
+class Mesh;
 class MeshGenerator
 {
 public:

@@ -1,5 +1,7 @@
 #pragma once
 #include "GeometryFilter.h"
+class Mesh;
+class GameObject;
 class MeshFilter:public GeometryFilter
 {
 public:

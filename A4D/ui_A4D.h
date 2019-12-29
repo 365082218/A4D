@@ -107,7 +107,9 @@ public:
 		__qtreewidgetitem->setText(0, QStringLiteral("1"));
 		treeWidget->setHeaderItem(__qtreewidgetitem);
 		treeWidget->setObjectName(QStringLiteral("treeWidget"));
-
+		treeWidget->setMouseTracking(true);
+		treeWidget->setAutoFillBackground(true);
+		treeWidget->header()->setVisible(false);
 		sceneTreeLayout->addWidget(treeWidget);
 
 		//editorWindow = new QWidget(centralWidget);

@@ -71,6 +71,11 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <PreprocessorDefinitions>EngineEditor;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile />
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -111,6 +116,7 @@
   <ItemGroup>
     <ClCompile Include="A4D.cpp" />
     <ClCompile Include="AWidget.cpp" />
+    <ClCompile Include="CrashHandler\CrashHandler.cpp" />
     <ClCompile Include="Engine\AObject.cpp" />
     <ClCompile Include="Engine\BaseMaterial.cpp" />
     <ClCompile Include="Engine\BaseMesh.cpp" />

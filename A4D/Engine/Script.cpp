@@ -1,7 +1,18 @@
 #include "stdafx.h"
 #include "Script.h"
-
-
+#include "EventDispatcher.h"
+#include "GameWorld.h"
+#include "TexturePool.h"
+#include "WInputModel.h"
+#include "Console.h"
+#include "Pool.h"
+#include "Time.h"
+#include "MouseMgr.h"
+#include "WGraphics.h"
+#include "GameObject.h"
+#include "Transform.h"
+#include "../A4D.h"
+#include "Scene.h"
 Script::Script()
 {
 }
@@ -11,20 +22,20 @@ Script::~Script()
 {
 }
 
-void Script::OnEnable(Event * context)
+void Script::OnEnable(AEvent * context)
 {
-	A4D::getInstance()->pInput->on(EventId::KeyDown, this, (LPHandler)&Component::OnKeyDown, NULL, false);
-	A4D::getInstance()->pInput->on(EventId::KeyUp, this, (LPHandler)&Component::OnKeyUp, NULL, false);
+	A4D::getInstance()->pInput->on(EventId::KeyDown, this, (LPHandler)&Component::OnKeyDown, false);
+	A4D::getInstance()->pInput->on(EventId::KeyUp, this, (LPHandler)&Component::OnKeyUp, false);
 }
 
-void Script::OnDisable(Event * context)
+void Script::OnDisable(AEvent * context)
 {
 	A4D::getInstance()->pInput->off(EventId::KeyDown, this, (LPHandler)&Component::OnKeyDown, false);
 	A4D::getInstance()->pInput->off(EventId::KeyUp, this, (LPHandler)&Component::OnKeyUp, false);
 }
 
 //meshrenderer¹ØÐÄ
-void Script::OnMeshChanged(Event * context)
+void Script::OnMeshChanged(AEvent * context)
 {
 
 }

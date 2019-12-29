@@ -1,8 +1,10 @@
 #pragma once
 #include "Component.h"
-#include "BoundSphere.h"
-#include "BoundBox.h"
-#include "MeshFilter.h"
+class MeshFilter;
+class RenderState;
+class BoundBox;
+class BoundSphere;
+class RenderElement;
 class Render :
 	public Component
 {
@@ -16,11 +18,11 @@ public:
 	float _distanceForSort;//≈≈–Ú÷µ.
 	BoundBox * _boundingBox;
 	BoundSphere * boundingSphere;
-	void OnMeshChanged(Event * context);
+	void OnMeshChanged(AEvent * context);
 	vector<RenderElement*> _renderElements;
 	int _indexInSceneFrustumCullingObjects;
-	void OnEnable(Event * context);
-	void OnDisable(Event * context);
+	void OnEnable(AEvent * context);
+	void OnDisable(AEvent * context);
 	MeshFilter * meshFilter;
 	virtual void _changeRenderObjectsByMesh();
 	virtual void _changeRenderObjectByMesh(int index);

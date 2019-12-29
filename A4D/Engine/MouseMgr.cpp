@@ -1,6 +1,6 @@
 #include "stdafx.h"
+#include "EventDispatcher.h"
 #include "MouseMgr.h"
-
 
 MouseMgr::MouseMgr()
 {

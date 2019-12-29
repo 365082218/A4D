@@ -1,5 +1,13 @@
 #include "stdafx.h"
 #include "StaticBatchManager.h"
+#include "EventDispatcher.h"
+#include "Component.h"
+#include "Node.h"
+#include "Transform.h"
+#include "GameObject.h"
+#include "Layer.h"
+#include "Scene.h"
+#include "StaticBatch.h"
 
 vector<StaticBatchManager*> * StaticBatchManager::_staticBatchManagers = NULL;
 StaticBatchManager::StaticBatchManager()

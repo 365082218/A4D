@@ -1,6 +1,4 @@
 #pragma once
-#include <map>
-#include "Pool.h"
 #define _MAX_TIMER 50
 using namespace std;
 typedef int (* LPFNTimeFunction)(void);

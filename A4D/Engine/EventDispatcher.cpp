@@ -1,8 +1,9 @@
 #include "stdafx.h"
 #include "EventDispatcher.h"
-#include <iostream>
-#include <functional>
-using namespace std;
+AEvent::AEvent()
+{
+
+}
 
 EventDispatcher::EventDispatcher()
 {
@@ -13,7 +14,7 @@ EventDispatcher::~EventDispatcher()
 {
 }
 
-void EventDispatcher::onevent(EventId evtId, Event * context)
+void EventDispatcher::fire(EventId evtId, AEvent * context)
 {
 	map<int, vector<EventHandler*>*>::iterator listeners = _events.find(evtId);
 	if (listeners != _events.end())
@@ -55,7 +56,7 @@ void EventDispatcher::offAll(EventId evt)
 	}
 }
 
-void EventDispatcher::on(EventId evtId, EventDispatcher* caller, LPHandler listener, Event * context, bool once)
+void EventDispatcher::on(EventId evtId, EventDispatcher* caller, LPHandler listener, bool once)
 {
 	map<int, vector<EventHandler*>*>::iterator it = _events.find(evtId);
 	if (it != _events.end())
@@ -93,7 +94,7 @@ void EventDispatcher::on(EventId evtId, EventDispatcher* caller, LPHandler liste
 	}
 }
 
-void EventDispatcher::once(EventId evt, EventDispatcher* caller, LPHandler listener, Event * context)
+void EventDispatcher::once(EventId evt, EventDispatcher* caller, LPHandler listener, AEvent * context)
 {
 
 }
@@ -103,33 +104,37 @@ void EventDispatcher::off(EventId evt, EventDispatcher* caller, LPHandler listen
 
 }
 
-void EventDispatcher::invoke(EventDispatcher * pDispatch, LPHandler method, Event * context)
+void EventDispatcher::invoke(EventDispatcher * pDispatch, LPHandler method, AEvent * context)
 {
 	auto b = std::bind(method, pDispatch, context);
 	b();
 }
 
-void EventDispatcher::OnEnable(Event * context)
+void EventDispatcher::OnEnable(AEvent * context)
 {
 
 }
 
-void EventDispatcher::OnDisable(Event * context)
+void EventDispatcher::OnDisable(AEvent * context)
 {
 
 }
 
-void EventDispatcher::OnMeshChanged(Event * context)
+void EventDispatcher::OnMeshChanged(AEvent * context)
 {
 
 }
 
-void EventDispatcher::_activeHierarchy(Event * context)
+void EventDispatcher::OnActiveHierarchy(AEvent * context)
 {
 
 }
 
-void EventDispatcher::_inActiveHierarchy(Event * context)
+void EventDispatcher::OnInActiveHierarchy(AEvent * context)
+{
+
+}
+void EventDispatcher::OnHierarchyChanged(AEvent * context)
 {
 
 }

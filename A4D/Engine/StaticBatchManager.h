@@ -1,6 +1,6 @@
 #pragma once
-#include "StaticBatch.h"
 class StaticBatch;
+class Scene;
 class StaticBatchManager
 {
 public:

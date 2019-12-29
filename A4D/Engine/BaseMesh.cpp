@@ -1,2 +1,9 @@
 #include "stdafx.h"
+#include "EventDispatcher.h"
+#include "resources.h"
+#include "RenderState.h"
+#include <d3dx9tex.h>
+#include "BoundSphere.h"
+#include "BoundBox.h"
+#include "Vector3.h"
 #include "BaseMesh.h"

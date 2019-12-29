@@ -11,8 +11,8 @@ public:
 	void OnKeyUp(KeyEvent * context);
 	void OnMouseDown(MouseEvent * context);
 	void OnMouseUp(MouseEvent * context);
-	void OnEnable(Event * context);
-	void OnDisable(Event * context);//组件disable
+	void OnEnable(AEvent * context);
+	void OnDisable(AEvent * context);//组件disable
 	size_t type_id()
 	{
 		return typeid(CameraMove).hash_code();

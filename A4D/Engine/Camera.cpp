@@ -1,13 +1,24 @@
 #include "stdafx.h"
-#include "Component.h"
-#include "GameObject.h"
-#include "Camera.h"
 #include "Layer.h"
 #include "RenderState.h"
+#include "Camera.h"
+#include "BoundBox.h"
+#include "BoundSphere.h"
+#include "Render.h"
 #include "RenderTexture.h"
 #include "BoundFrustum.h"
-#include "object.h"
-
+#include "GameWorld.h"
+#include "TexturePool.h"
+#include "WInputModel.h"
+#include "Console.h"
+#include "Pool.h"
+#include "Time.h"
+#include "MouseMgr.h"
+#include "WGraphics.h"
+#include "GameObject.h"
+#include "Transform.h"
+#include "../A4D.h"
+#include "Scene.h"
 REGISTER_CLASS(Camera);
 Camera::Camera()
 {
@@ -42,16 +53,32 @@ Camera::~Camera()
 {
 }
 
-void Camera::OnEnable(Event * context)
+void Camera::OnEnable(AEvent * context)
 {
-	if (context->psender->type_id() == typeid(Camera).hash_code())
-		gameObject->m_pScene->registerCamera(dynamic_cast<Camera*>(context->psender));
+	if (context->pComponent->type_id() == typeid(Camera).hash_code())
+	{
+#if (EngineEditor)
+		AEvent evt;
+		evt.pComponent = this;
+		evt.pGameObject = this->gameObject;
+		evt.pScene = this->gameObject->m_pScene;
+		A4D::getInstance()->fire(EventId::ComponentEnable, &evt);
+#endif
+	}
 }
 
-void Camera::OnDisable(Event * context)
+void Camera::OnDisable(AEvent * context)
 {
-	if (context->psender->type_id() == typeid(Camera).hash_code())
-		gameObject->m_pScene->unregisterCamera(this);
+	if (context->pComponent->type_id() == typeid(Camera).hash_code())
+	{
+#if (EngineEditor)
+		AEvent evt;
+		evt.pComponent = this;
+		evt.pGameObject = this->gameObject;
+		evt.pScene = this->gameObject->m_pScene;
+		A4D::getInstance()->fire(EventId::ComponentDisable, &evt);
+#endif
+	}
 }
 
 void Camera::Awake(GameObject * pOwner)
@@ -116,7 +143,7 @@ void Camera::_prepareCameraViewProject(D3DMATRIX * pViewM, D3DMATRIX * pProjM)
 }
 
 //每个相机都要把所在场景的所有物体全部绘制一遍，如果在该相机的可视层和视锥体内
-void Camera::_renderCamera(IDirect3DDevice9 * pDevice, RenderState * rs, Scene * pScene)
+void Camera::_renderCamera(IDirect3DDevice9 * pDevice, RenderState * rs, WGraphics * pGraphics)
 {
 	//PSSM阴影贴图(scene.parallelSplitShadowMaps[0]) && (scene._renderShadowMap(gl, state, this));
 	//PSSM(Parallel Split Shadow Map)平行分割阴影图
@@ -138,12 +165,12 @@ void Camera::_renderCamera(IDirect3DDevice9 * pDevice, RenderState * rs, Scene *
 	else {
 		projectMat = rs->_projectionMatrix = &this->projectionMatrix;
 	}
-	this->_prepareCameraViewProject(&rs->_viewMatrix, projectMat);
+	this->_prepareCameraViewProject(rs->_viewMatrix, projectMat);
 	rs->_viewport = &this->viewport;
-	pScene->_preRenderScene(pDevice, rs, this->boundFrustum);
-	pScene->_clear(pDevice, rs);
-	pScene->_renderScene(pDevice, rs);
-	pScene->_postRenderUpdateComponents(rs);
+	pGraphics->_preRenderScene(pDevice, rs, this->boundFrustum);
+	pGraphics->_clear(pDevice, rs);
+	pGraphics->_renderScene(pDevice, rs);
+	pGraphics->_postRenderUpdateComponents(rs);
 	if (renderTar)
 		renderTar->end();
 }

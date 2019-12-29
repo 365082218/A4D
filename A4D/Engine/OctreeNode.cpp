@@ -23,4 +23,4 @@
 //OctreeNode::~OctreeNode()
 //{
 //}
-#include "stdafx.h"
+//#include "stdafx.h"

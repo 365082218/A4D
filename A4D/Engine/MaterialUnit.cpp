@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "MaterialUnit.h"
 
-
 MaterialUnit::MaterialUnit()
 {
 }

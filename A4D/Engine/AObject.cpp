@@ -1,7 +1,17 @@
+#include "stdafx.h"
 #include "AObject.h"
+int AObject::Instance = 0;
 AObject::AObject(string n)
 {
 	name = n;
+	instance = AObject::Instance;
+	AObject::Instance++;
+#if (EngineEditor)
+	if (AObject::Instance >= INT_MAX)
+	{
+		//();
+	}
+#endif 
 }
 AObject::AObject()
 {

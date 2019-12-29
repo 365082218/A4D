@@ -1,5 +1,4 @@
 #pragma once
-class EventDispatcher;
 #include "EventDispatcher.h"
 class InputMgr:public EventDispatcher
 {

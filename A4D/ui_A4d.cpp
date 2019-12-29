@@ -5,8 +5,22 @@
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
-
+#include "Engine/stdafx.h"
 #include "A4D.h"
+#include "Engine/W4DCommon.h"
+#include "Engine/Node.h"
+#include "Engine/Component.h"
+#include "Engine/Transform.h"
+#include "Engine/GameObject.h"
+#include "Engine/global.h"
+#include "Engine/WGraphics.h"
+#include "Engine/TexturePool.h"
+#include "Engine/GameWorld.h"
+#include "Engine/Console.h"
+#include "Engine/WInputModel.h"
+#include "Engine/MouseMgr.h"
+#include "Engine/Pool.h"
+#include "Engine/Time.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)

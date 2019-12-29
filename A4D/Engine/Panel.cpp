@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Panel.h"
-
 //面板,顶级是主游戏窗口.
 Panel::Panel()
 {

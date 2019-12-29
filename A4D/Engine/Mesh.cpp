@@ -1,20 +1,24 @@
 #include "stdafx.h"
-#include "../A4D.h"
-#include "W4DCommon.h"
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
-#include <list>
-#include <map>
-#include "global.h"
 #include "Mesh.h"
-#include <D3D10.h>
-#include "SubMesh.h"
-#define _USE_MATH_DEFINES
-#include <math.h>
-
-using namespace std;
+#include "BaseMesh.h"
+#include "W4DCommon.h"
+#include "RenderState.h"
+#include "Node.h"
+#include "Component.h"
+#include "EventDispatcher.h"
+#include "resources.h"
+#include "GameWorld.h"
+#include "GameObject.h"
+#include "Transform.h"
+#include "TexturePool.h"
+#include "Camera.h"
+#include "../A4D.h"
+#include "WInputModel.h"
+#include "Console.h"
+#include "Pool.h"
+#include "Time.h"
+#include "MouseMgr.h"
+#include "WGraphics.h"
 TextureMesh::TextureMesh()
 {
 	A4D::getInstance()->Graphics()->pEditorDevice->CreateVertexBuffer(

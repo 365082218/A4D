@@ -1,5 +1,6 @@
 #pragma once
-#include "MainUi.h"
+class Panel;
+class MainUi;
 class GameWorld
 {
 public:

@@ -1,6 +1,16 @@
 #include "stdafx.h"
 #include "DynamicBatchManager.h"
-
+#include "Scene.h"
+#include "GameObject.h"
+#include "RenderElement.h"
+#include "Material.h"
+#include "StaticBatch.h"
+#include "Render.h"
+#include "BaseMesh.h"
+#include "RenderState.h"
+#include "BoundBox.h"
+#include "BoundSphere.h"
+#include "Camera.h"
 
 DynamicBatchManager::DynamicBatchManager()
 {

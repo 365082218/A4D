@@ -1,13 +1,23 @@
 #include "stdafx.h"
 #include "RenderQueue.h"
-#include "RenderState.h"
 #include "RenderElement.h"
-
+#include "RenderState.h"
+#include "Component.h"
+#include "WGraphics.h"
+#include "RenderTexture.h"
+#include "BoundFrustum.h"
+#include "Camera.h"
+#include "resources.h"
+#include "Vector3.h"
+#include "BoundBox.h"
+#include "BoundSphere.h"
+#include "BaseMesh.h"
+#include "GameObject.h"
+#include "Render.h"
 int RenderQueue::_uniqueIDCounter = 0;
-RenderQueue::RenderQueue(Scene * scene)
+RenderQueue::RenderQueue()
 {
 	_id = ++ _uniqueIDCounter;
-	_scene = scene;
 }
 
 
@@ -55,9 +65,9 @@ void RenderQueue::_addRenderElement(RenderElement * renderElement)
 void RenderQueue::_render(RenderState * rs, bool yes)
 {
 	//int loopCount = Stat.loopCount;
-	Scene * scene = _scene;
+	//Scene * scene = _scene;
 	Camera * camera = rs->camera;
-	rs->pDevice->SetTransform(D3DTS_VIEW, &rs->_viewMatrix);
+	rs->pDevice->SetTransform(D3DTS_VIEW, rs->_viewMatrix);
 	rs->pDevice->SetTransform(D3DTS_PROJECTION, rs->_projectionMatrix);
 	int cameraID = camera->id;
 	IDirect3DVertexBuffer9** vbs;

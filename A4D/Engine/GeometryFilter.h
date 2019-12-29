@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
-#include "Mesh.h"
 //几何体过滤器
+class Mesh;
 class GeometryFilter:public Component
 {
 public:

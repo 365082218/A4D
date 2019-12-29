@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "BoundBox.h"
 
-
 BoundBox::BoundBox(D3DXVECTOR3 * min, D3DXVECTOR3 * max)
 {
 }

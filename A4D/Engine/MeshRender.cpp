@@ -1,11 +1,11 @@
 #include "stdafx.h"
-#include "Component.h"
 #include "Render.h"
 #include "MeshRender.h"
-#include "object.h"
-
+#include "BaseMesh.h"
+#include "Mesh.h"
+#include "RenderState.h"
+#include "RenderElement.h"
 REGISTER_CLASS(MeshRender)
-
 MeshRender::MeshRender()
 {
 }

@@ -1,7 +1,4 @@
 #pragma once
-#include <D3DX10Math.h>
-#include "Mesh.h"
-
 struct Tex_Vertex
 {
 	Tex_Vertex() {}

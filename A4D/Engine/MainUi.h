@@ -1,6 +1,6 @@
 #pragma once
 #include "Panel.h"
-#include "Button.h"
+class Button;
 class MainUi :
 	public Panel
 {

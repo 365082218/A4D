@@ -26,6 +26,15 @@
     <layout class="QVBoxLayout" name="sceneTreeLayout">
      <item>
       <widget class="QTreeWidget" name="treeWidget">
+       <property name="mouseTracking">
+        <bool>false</bool>
+       </property>
+       <property name="autoFillBackground">
+        <bool>true</bool>
+       </property>
+       <attribute name="headerVisible">
+        <bool>false</bool>
+       </attribute>
        <column>
         <property name="text">
          <string notr="true">1</string>

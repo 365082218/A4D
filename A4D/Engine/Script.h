@@ -6,9 +6,9 @@ class Script :
 public:
 	Script();
 	~Script();
-	void OnEnable(Event * context);
-	void OnDisable(Event * context);//组件disable
-	void OnMeshChanged(Event * context);//meshrender收到meshfilter改变了mesh
+	void OnEnable(AEvent * context);
+	void OnDisable(AEvent * context);//组件disable
+	void OnMeshChanged(AEvent * context);//meshrender收到meshfilter改变了mesh
 	void OnKeyDown(KeyEvent * context);
 	void OnKeyUp(KeyEvent * context);
 	void OnMouseDown(MouseEvent * context);

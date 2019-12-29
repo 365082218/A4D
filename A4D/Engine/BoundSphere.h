@@ -1,5 +1,4 @@
 #pragma once
-//包围球，中心位置+半径
 class BoundSphere
 {
 public:
