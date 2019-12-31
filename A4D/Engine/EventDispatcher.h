@@ -25,6 +25,7 @@ enum AEventType
 	Remove = -1,//移除子节点.
 	New = 0,//场景被创建.
 	Add = 1,//添加子节点.
+	Delete = 2,//场景卸载
 };
 
 class AEvent

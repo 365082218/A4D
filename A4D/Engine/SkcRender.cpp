@@ -27,7 +27,6 @@
 #include "resources.h"
 #include "Vector3.h"
 #include "BaseMesh.h"
-#include "Layer.h"
 
 REGISTER_CLASS(SkcRender)
 SkcRender::SkcRender()

@@ -8,7 +8,6 @@
 #include "Engine/resources.h"
 #include "Engine/Component.h"
 #include "Engine/Scene.h"
-#include "Engine/Layer.h"
 #include "Engine/GameObject.h"
 #include "Engine/StaticBatch.h"
 #include "Engine/RenderElement.h"

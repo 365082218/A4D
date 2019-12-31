@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "Layer.h"
 #include "RenderState.h"
 #include "Camera.h"
 #include "BoundBox.h"
@@ -19,6 +18,7 @@
 #include "Transform.h"
 #include "../A4D.h"
 #include "Scene.h"
+#include <cmath>
 REGISTER_CLASS(Camera);
 Camera::Camera()
 {
@@ -47,6 +47,7 @@ Camera::Camera()
 	CalculateProjectionMatrix();
 	_renderTarget = NULL;
 	useOcclusionCulling = false;
+	addAllLayers();
 }
 
 Camera::~Camera()
@@ -131,7 +132,6 @@ void Camera::CalculateViewPort(D3DVIEWPORT9 * normalize, float width, float heig
 
 void Camera::_prepareCameraToRender()
 {
-	Layer::_currentCameraCullingMask = this->CullingMask;
 }
 
 /*
@@ -163,10 +163,11 @@ void Camera::_renderCamera(IDirect3DDevice9 * pDevice, RenderState * rs, WGraphi
 		//state._projectionViewMatrix = BaseCamera._invertYProjectionViewMatrix;
 	}
 	else {
-		projectMat = rs->_projectionMatrix = &this->projectionMatrix;
+		rs->_projectionMatrix = this->projectionMatrix;
+		projectMat = &rs->_projectionMatrix;
 	}
-	this->_prepareCameraViewProject(rs->_viewMatrix, projectMat);
-	rs->_viewport = &this->viewport;
+	this->_prepareCameraViewProject(&rs->_viewMatrix, projectMat);
+	rs->_viewport = this->viewport;
 	pGraphics->_preRenderScene(pDevice, rs, this->boundFrustum);
 	pGraphics->_clear(pDevice, rs);
 	pGraphics->_renderScene(pDevice, rs);
@@ -185,4 +186,15 @@ void Camera::SetViewPort(D3DVIEWPORT9 * port)
 	normalizedViewport.Height = port->Height / height;
 	CalculateViewPort(&normalizedViewport, width, height);
 	CalculateProjectionMatrix();
+}
+
+bool Camera::isVisible(int layer)
+{
+	int i = pow(2, layer);
+	return i & cullingMask != 0;
+}
+
+void Camera::addAllLayers()
+{
+	cullingMask = 2147483647;
 }

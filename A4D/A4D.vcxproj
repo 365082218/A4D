@@ -140,7 +140,6 @@
     <ClCompile Include="Engine\global.cpp" />
     <ClCompile Include="Engine\GmbMeshFilter.cpp" />
     <ClCompile Include="Engine\Image2D.cpp" />
-    <ClCompile Include="Engine\Layer.cpp" />
     <ClCompile Include="Engine\MainUi.cpp" />
     <ClCompile Include="Engine\Material.cpp" />
     <ClCompile Include="Engine\MaterialUnit.cpp" />
@@ -220,7 +219,6 @@
     <ClInclude Include="Engine\global.h" />
     <ClInclude Include="Engine\GmbMeshFilter.h" />
     <ClInclude Include="Engine\Image2D.h" />
-    <ClInclude Include="Engine\Layer.h" />
     <ClInclude Include="Engine\MainUi.h" />
     <ClInclude Include="Engine\Material.h" />
     <ClInclude Include="Engine\MaterialUnit.h" />

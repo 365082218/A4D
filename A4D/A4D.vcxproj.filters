@@ -100,9 +100,6 @@
     <ClCompile Include="Engine\Image2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Layer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\MainUi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -294,9 +291,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Image2D.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Layer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Engine\MainUi.h">

@@ -306,9 +306,9 @@ void WGraphics::ShutDown()
 
 void WGraphics::_preRenderScene(IDirect3DDevice9 * pDevice, RenderState * rs, BoundFrustum * pFrustum)
 {
-	D3DXMATRIX * view = rs->_viewMatrix;
-	D3DXMATRIX * projection = rs->_projectionMatrix;
-	D3DXMATRIX * projectionView = rs->_projectionViewMatrix;
+	D3DXMATRIX * view = &rs->_viewMatrix;
+	D3DXMATRIX * projection = &rs->_projectionMatrix;
+	D3DXMATRIX * projectionView = &rs->_projectionViewMatrix;
 	int i = 0, iNum = 0;
 	Camera * camera = rs->camera;
 	if (camera->useOcclusionCulling) {

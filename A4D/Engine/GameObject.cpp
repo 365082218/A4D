@@ -8,6 +8,7 @@
 GameObject::GameObject(std::string Name):AObject(Name)
 {
 	m_pScene = NULL;
+	layer = 0;
 	transform = (Transform*)addComponent(typeid(Transform).hash_code());
 	Scene * pActiveScene = SceneManager::GetActiveScene();
 	pActiveScene->addChild(this);

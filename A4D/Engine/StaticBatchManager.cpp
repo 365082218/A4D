@@ -5,7 +5,6 @@
 #include "Node.h"
 #include "Transform.h"
 #include "GameObject.h"
-#include "Layer.h"
 #include "Scene.h"
 #include "StaticBatch.h"
 

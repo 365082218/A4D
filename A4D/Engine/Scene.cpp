@@ -13,7 +13,6 @@
 #include "GameObject.h"
 #include "Transform.h"
 #include "../A4D.h"
-#include "Scene.h"
 Scene::Scene(string n)
 {
 	AObject::Instance++;

@@ -67,8 +67,8 @@ void RenderQueue::_render(RenderState * rs, bool yes)
 	//int loopCount = Stat.loopCount;
 	//Scene * scene = _scene;
 	Camera * camera = rs->camera;
-	rs->pDevice->SetTransform(D3DTS_VIEW, rs->_viewMatrix);
-	rs->pDevice->SetTransform(D3DTS_PROJECTION, rs->_projectionMatrix);
+	rs->pDevice->SetTransform(D3DTS_VIEW, &rs->_viewMatrix);
+	rs->pDevice->SetTransform(D3DTS_PROJECTION, &rs->_projectionMatrix);
 	int cameraID = camera->id;
 	IDirect3DVertexBuffer9** vbs;
 	IDirect3DIndexBuffer9** IB;

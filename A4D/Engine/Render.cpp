@@ -10,6 +10,19 @@
 #include "Mesh.h"
 #include "GeometryFilter.h"
 #include "RenderElement.h"
+#include "Scene.h"
+#include "SceneManager.h"
+#include "GameWorld.h"
+#include "TexturePool.h"
+#include "WInputModel.h"
+#include "Console.h"
+#include "Pool.h"
+#include "Time.h"
+#include "MouseMgr.h"
+#include "WGraphics.h"
+#include "Transform.h"
+#include "../A4D.h"
+
 Render::Render()
 {
 	_indexInSceneFrustumCullingObjects = 0;
@@ -46,7 +59,13 @@ void Render::OnEnable(AEvent * context)
 	{
 		if (context->pComponent == this)
 		{
-			
+#if (EngineEditor)
+			AEvent evt;
+			evt.pComponent = this;
+			evt.pScene = this->gameObject->m_pScene;
+			evt.pGameObject = this->gameObject;
+			A4D::getInstance()->fire(EventId::ComponentEnable, &evt);
+#endif
 		}
 		else if (context->pComponent->type_id() == typeid(MeshFilter).hash_code())
 		{
@@ -65,7 +84,13 @@ void Render::OnDisable(AEvent * context)
 	{
 		if (context->pComponent == this)
 		{
-			
+#if (EngineEditor)
+			AEvent evt;
+			evt.pComponent = this;
+			evt.pScene = this->gameObject->m_pScene;
+			evt.pGameObject = this->gameObject;
+			A4D::getInstance()->fire(EventId::ComponentDisable, &evt);
+#endif
 		}
 		else if (context->pComponent->type_id() == typeid(MeshFilter).hash_code())
 		{

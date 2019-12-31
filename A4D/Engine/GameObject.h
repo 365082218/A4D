@@ -27,7 +27,7 @@ public:
 	void OnPostRender();
 	void update();
 	
-	Layer * layer;
+	int layer;
 	bool isStatic;//是否静态物件
 	bool activeSelf;//自身是否激活
 	bool activeInHierarchy;//层级递归后是否激活

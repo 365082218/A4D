@@ -9,7 +9,6 @@
 #include "Engine/resources.h"
 #include "Engine/Component.h"
 #include "Engine/Scene.h"
-#include "Engine/Layer.h"
 #include "Engine/GameObject.h"
 #include "Engine/StaticBatch.h"
 #include "Engine/RenderElement.h"
@@ -39,6 +38,7 @@
 #include "Engine/MaterialUnit.h"
 #include "Engine/BoneWeight.h"
 #include "Engine/SubMesh.h"
+#include "Engine/SkcRender.h"
 #include "A4D.h"
 
 extern void RegisterCrashHandler();
@@ -114,7 +114,7 @@ void A4D::OnEnable(AEvent * context)
 		{
 			this->pGraphs->RegisterCamera((Camera*)context->pComponent);
 		}
-		else if (hash == typeid(Render).hash_code())
+		else if (hash == typeid(SkcRender).hash_code())
 		{
 			this->pGraphs->addFrustumCullingObject((Render*)context->pComponent);
 		}
@@ -178,8 +178,18 @@ void A4D::OnHierarchyChanged(AEvent * evt)
 	}
 	else if (p->type == AEventType::New)
 	{
-		//增加场景
-		//p->pScene->m_name
+		//顶层添加对象，一定是场景.
+		map<int, QTreeWidgetItem *>::iterator iter = TreeItemHash.find(p->pScene->handle);
+		if (iter != TreeItemHash.end())
+		{
+			//找到了，已经存在此场景，什么也不做，逻辑上不可能到这里
+		}
+		else
+		{
+			QTreeWidgetItem * pItem = new QTreeWidgetItem(QStringList(p->pScene->name.c_str()));
+			this->ui.treeWidget->addTopLevelItem(pItem);
+			TreeItemHash.insert(pair<int, QTreeWidgetItem*>(p->pScene->handle, pItem));
+		}
 	}
 }
 

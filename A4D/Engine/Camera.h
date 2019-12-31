@@ -16,7 +16,7 @@ public:
 	void WorldToViewportPoint(D3DXVECTOR3 * pout, D3DXVECTOR3 * worldPos);
 	bool orthographic;//相机投影方式
 	int depth;
-	int CullingMask;//可视图层
+	int cullingMask;//可视图层
 	float fieldOfView;//The field of view of the camera in degrees.
 	float aspect;//宽高比
 	D3DVIEWPORT9 viewport;
@@ -45,5 +45,7 @@ public:
 	}
 
 	void SetViewPort(D3DVIEWPORT9 * port);
+	bool isVisible(int mask);
+	void addAllLayers();
 };
 

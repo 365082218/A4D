@@ -46,12 +46,12 @@ void Component::removeComponent(size_t ComponentId)
 
 void Component::OnEnable(AEvent * context)
 {
-
+	enable = true;
 }
 
 void Component::OnDisable(AEvent * context)
 {
-
+	enable = false;
 }
 
 void Component::Update()

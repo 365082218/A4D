@@ -12,10 +12,10 @@ public:
 	StaticBatch * _staticBatch = NULL;
 	int _batchIndexStart;
 	int _batchIndexEnd = 0;
-	D3DXMATRIX *_viewMatrix;
-	D3DXMATRIX *_projectionMatrix;
-	D3DXMATRIX *_projectionViewMatrix;
-	D3DVIEWPORT9 *_viewport;
+	D3DXMATRIX _viewMatrix;
+	D3DXMATRIX _projectionMatrix;
+	D3DXMATRIX _projectionViewMatrix;
+	D3DVIEWPORT9 _viewport;
 	//_shader = null;
 	/**距上一帧间隔时间。*/
 	float elapsedTime;

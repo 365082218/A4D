@@ -10,7 +10,6 @@
 #include "BaseMesh.h"
 #include "GameObject.h"
 #include "Transform.h"
-#include "Layer.h"
 #include "Render.h"
 #include "BoundSphere.h"
 #include "RenderElement.h"
@@ -45,7 +44,7 @@ void FrustumCulling::renderObjectCullingNoBoundFrustum(WGraphics * graphic, Came
 	D3DXVECTOR3 *cameraPosition = &(camera->gameObject->transform->position);
 	for (int i = 0, n = graphic->_cullingRendersLength; i < n; i++) {
 		Render * baseRender = frustumCullingObjects[i];
-		if (Layer::isVisible(baseRender->gameObject->layer->mask) && baseRender->enable) {
+		if (camera->isVisible(baseRender->gameObject->layer)) {
 			baseRender->_renderUpdate(projectionView);
 			baseRender->_distanceForSort = Vector3::distance(&baseRender->boundingSphere->center, cameraPosition) + baseRender->sortingFudge;
 			vector<RenderElement*> * renderElements = &baseRender->_renderElements;

@@ -7,7 +7,6 @@
 #include "Time.h"
 #include "GameObject.h"
 #include "Transform.h"
-#include "Layer.h"
 //父�饂�陣崙重云
 
 REGISTER_CLASS(CameraMove)
