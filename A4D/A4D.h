@@ -54,18 +54,23 @@ public:
 	void ChangePlaying(bool play);
 	void EngineRender();
 	void InitHandler();
+	
 	void WireFrame(bool b);
 	void Shaded(bool trigger);
 	bool event(QEvent *);
 	void paintEvent(QPaintEvent *event);
 	void InitListener();
-	map<int, Transform*> TransformHash;
-	map<int, QTreeWidgetItem *> TreeItemHash;
+	map<int, QTreeWidgetItem *> ItemHash;//每个实例对应的树里的项
+	map<QTreeWidgetItem*, int> TreeHash;//树里的每一个项对应的 实例ID
+	map<int, Scene*> SceneHash;//ID=>场景对象
+	map<int, GameObject*> GameObjectHash;//ID=>游戏对象
 	//dispatcher
 	void OnHierarchyChanged(AEvent * evt);
 
 	void OnEnable(AEvent * context);
 	void OnDisable(AEvent * context);
+	void ShowMyContextMenu(QPoint pos);
+	void CopyObject();
 private:
 	Ui::A4DClass ui;
 };

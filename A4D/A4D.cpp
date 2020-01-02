@@ -94,6 +94,8 @@ A4D::A4D(QWidget *parent)
 	pMouse = new MouseMgr();
 	pInput->Init();
 	pWorld = new GameWorld();
+
+	
 	InitListener();//监听编辑器场景发生变化
 	InitHandler();
 	pGraphs->Setup();
@@ -144,31 +146,56 @@ void A4D::InitListener()
 	on(EventId::ComponentDisable, this, (LPHandler)&EventDispatcher::OnDisable, false);
 }
 
+void A4D::InitHandler()
+{
+	QObject::connect(ui.actionShaded, &QAction::triggered, this, &A4D::Shaded);
+	QObject::connect(ui.actionWireframe, &QAction::triggered, this, &A4D::WireFrame);
+	QObject::connect(ui.treeWidget, &QWidget::customContextMenuRequested, this, &A4D::ShowMyContextMenu);
+}
+
 void A4D::OnHierarchyChanged(AEvent * evt)
 {
 	HierarchyChangeEvent * p = (HierarchyChangeEvent*)evt;
 	if (p->type == AEventType::Add)
 	{
-		//最顶层加
-		if (p->pScene != NULL)
+		if (p->pGameObject == NULL)
 		{
+			//场景下添加对象.
 			int instance = p->pScene->handle;
-			//map<int, Transform*>::iterator iter = TransformHash.find(instance);
-			map<int, QTreeWidgetItem *>::iterator iter = TreeItemHash.find(instance);
-			if (iter != TreeItemHash.end())
+			map<int, QTreeWidgetItem *>::iterator iter = ItemHash.find(instance);
+			if (iter != ItemHash.end())
 			{
 				//找到了.
 				//被add的对象可能存在
-				//iter->second->addChild();
-				//this->ui.treeWidget->insertTopLevelItem();
+				QTreeWidgetItem * pItem = new QTreeWidgetItem(QStringList(p->transform->gameObject->name.c_str()));
+				iter->second->addChild(pItem);
+				ItemHash.insert(pair<int, QTreeWidgetItem*>(p->transform->gameObject->GetInstanceId(), pItem));
+				TreeHash.insert(pair<QTreeWidgetItem*, int>(pItem, p->transform->gameObject->GetInstanceId()));
+				GameObjectHash.insert(pair<int, GameObject*>(p->transform->gameObject->GetInstanceId(), p->transform->gameObject));
 			}
 			else
 			{
-
+				//没找到,出错了
 			}
 		}
 		else
 		{
+			//对象下添加对象
+			map<int, QTreeWidgetItem *>::iterator iter = ItemHash.find(p->pGameObject->GetInstanceId());
+			if (iter != ItemHash.end())
+			{
+				//找到了.
+				QTreeWidgetItem * pItem = new QTreeWidgetItem(QStringList(p->transform->gameObject->name.c_str()));
+				iter->second->addChild(pItem);
+				ItemHash.insert(pair<int, QTreeWidgetItem*>(p->transform->gameObject->GetInstanceId(), pItem));
+				TreeHash.insert(pair<QTreeWidgetItem*, int>(pItem, p->transform->gameObject->GetInstanceId()));
+				GameObjectHash.insert(pair<int, GameObject*>(p->transform->gameObject->GetInstanceId(), p->transform->gameObject));
+			}
+			else
+			{
+				//没找到,出错了
+				
+			}
 
 		}
 	}
@@ -179,8 +206,8 @@ void A4D::OnHierarchyChanged(AEvent * evt)
 	else if (p->type == AEventType::New)
 	{
 		//顶层添加对象，一定是场景.
-		map<int, QTreeWidgetItem *>::iterator iter = TreeItemHash.find(p->pScene->handle);
-		if (iter != TreeItemHash.end())
+		map<int, QTreeWidgetItem *>::iterator iter = ItemHash.find(p->pScene->handle);
+		if (iter != ItemHash.end())
 		{
 			//找到了，已经存在此场景，什么也不做，逻辑上不可能到这里
 		}
@@ -188,15 +215,84 @@ void A4D::OnHierarchyChanged(AEvent * evt)
 		{
 			QTreeWidgetItem * pItem = new QTreeWidgetItem(QStringList(p->pScene->name.c_str()));
 			this->ui.treeWidget->addTopLevelItem(pItem);
-			TreeItemHash.insert(pair<int, QTreeWidgetItem*>(p->pScene->handle, pItem));
+			ItemHash.insert(pair<int, QTreeWidgetItem*>(p->pScene->handle, pItem));
+			TreeHash.insert(pair<QTreeWidgetItem*, int>(pItem, p->pScene->handle));
+			SceneHash.insert(pair<int, Scene*>(p->pScene->handle, p->pScene));
 		}
 	}
 }
 
-void A4D::InitHandler()
+void A4D::CopyObject()
 {
-	QObject::connect(ui.actionShaded, &QAction::triggered, this, &A4D::Shaded);
-	QObject::connect(ui.actionWireframe, &QAction::triggered, this, &A4D::WireFrame);
+	::MessageBox(NULL, _T("CopyObject"), _T(""), MB_OK);
+}
+
+void A4D::ShowMyContextMenu(QPoint point)
+{
+	//! 创建右键菜单
+	QMenu menu;
+	QTreeWidgetItem * item = ui.treeWidget->itemAt(point);
+	
+	if (item == NULL)
+	{
+		//空白处的菜单
+		QList<QTreeWidgetItem*> list = ui.treeWidget->selectedItems();
+		if (list.size() == 1)
+		{
+			//ShowMyContextMenuAtItem(list[0]);//如果是预设.显示的菜单
+		}
+		else
+		{
+			//ShowMyDefaultContextMenu();//一个都没选择/或者选择多个.
+		}
+	}
+	else
+	{
+		map<QTreeWidgetItem *, int>::iterator it = TreeHash.find(item);
+		if (it != TreeHash.end())
+		{
+			map<int, Scene*>::iterator iterScene = SceneHash.find(it->second);
+			if (iterScene != SceneHash.end())
+			{
+				//选择项是一个场景
+				QAction* action1 = new QAction(&menu);
+				action1->setObjectName("Set Active Scene");
+				action1->setText(tr("Set Active Scene"));
+				menu.addAction(action1);
+				
+			}
+			else
+			{
+				//选择项是一个游戏对象
+				map<int, GameObject*>::iterator iterGameObject = GameObjectHash.find(it->second);
+				if (iterGameObject != GameObjectHash.end())
+				{
+					QAction* action1 = new QAction(&menu);
+					action1->setObjectName("Copy");
+					action1->setText(tr("Copy"));
+					menu.addAction(action1);
+
+					QObject::connect(action1, &QAction::triggered, this, &A4D::CopyObject);
+
+					QAction* action2 = new QAction(&menu);
+					action2->setObjectName("Paste");
+					action2->setText(tr("Paste"));
+					menu.addAction(action2);
+
+					menu.addSeparator();
+					QAction* action3 = new QAction(&menu);
+					action3->setObjectName("Rename");
+					action3->setText(tr("Rename"));
+					menu.addAction(action3);
+				}
+			}
+		}
+	}
+	//! 添加右键菜单中的action
+	//! 例如添加 action1
+	
+	//! 显示该菜单，进入消息循环
+	menu.exec(ui.treeWidget->mapToGlobal(point)/*全局位置*/);
 }
 
 void A4D::WireFrame(bool trigger)

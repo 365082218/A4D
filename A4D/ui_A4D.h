@@ -110,6 +110,7 @@ public:
 		treeWidget->setMouseTracking(true);
 		treeWidget->setAutoFillBackground(true);
 		treeWidget->header()->setVisible(false);
+		treeWidget->setContextMenuPolicy(Qt::CustomContextMenu);
 		sceneTreeLayout->addWidget(treeWidget);
 
 		//editorWindow = new QWidget(centralWidget);

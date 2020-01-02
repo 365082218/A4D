@@ -50,7 +50,7 @@ void WGraphics::Setup()
 	for (int i = 0; i < 1; i++)
 	{
 		char buff[20];
-		GameObject * pHero = new GameObject(string(itoa(i, buff, 10)));
+		GameObject * pHero = new GameObject("MainHero");
 		SkcRender * mr = (SkcRender*)pHero->addComponent(typeid(SkcRender).hash_code());
 		SkcMeshFilter * mf = (SkcMeshFilter*)pHero->addComponent(typeid(SkcMeshFilter).hash_code());
 		string s = string("F:/github/Project/pmodel/p") + string(itoa(i, buff, 10)) + string(".skc");

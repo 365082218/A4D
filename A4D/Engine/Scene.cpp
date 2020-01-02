@@ -15,8 +15,8 @@
 #include "../A4D.h"
 Scene::Scene(string n)
 {
-	AObject::Instance++;
 	handle = AObject::Instance;
+	AObject::Instance++;
 	name = n;
 	SceneManager::SetActiveScene(this);
 #if (EngineEditor)
@@ -42,11 +42,13 @@ void Scene::addChild(GameObject * gameObject)
 		HierarchyChangeEvent evt;
 		evt.pComponent = NULL;
 		evt.pScene = this;
+		evt.pGameObject = NULL;
 		evt.transform = gameObject->transform;
 		evt.type = AEventType::Add;
 		A4D::getInstance()->fire(EventId::HierarchyChanged, &evt);
 #endif
 		rootGameObjects.push_back(gameObject);
+		gameObject->m_pScene = this;
 	}
 }
 

@@ -41,14 +41,8 @@ void Node::addChild(Node * child)
 #if (EngineEditor)
 	HierarchyChangeEvent evt;
 	evt.pComponent = dynamic_cast<Transform*>(this);
-	if (evt.pComponent == NULL)
-		evt.pGameObject = NULL;
-	else
-		evt.pGameObject = dynamic_cast<Transform*>(evt.pComponent)->gameObject;
-	if (evt.pComponent != NULL)
-		evt.pScene = evt.pGameObject->m_pScene;
-	else
-		evt.pScene = dynamic_cast<Scene*>(this);
+	evt.pGameObject = dynamic_cast<Transform*>(evt.pComponent)->gameObject;
+	evt.pScene = evt.pGameObject->m_pScene;
 	evt.transform = dynamic_cast<Transform*>(child);
 	evt.type = AEventType::Add;
 	A4D::getInstance()->fire(EventId::HierarchyChanged, &evt);

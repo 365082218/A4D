@@ -12,7 +12,6 @@ GameObject::GameObject(std::string Name):AObject(Name)
 	transform = (Transform*)addComponent(typeid(Transform).hash_code());
 	Scene * pActiveScene = SceneManager::GetActiveScene();
 	pActiveScene->addChild(this);
-	m_pScene = pActiveScene;
 	activeSelf = true;
 	activeInHierarchy = true;
 }
