@@ -222,6 +222,26 @@ void A4D::OnHierarchyChanged(AEvent * evt)
 	}
 }
 
+void A4D::Delete()
+{
+	::MessageBox(NULL, _T("Delete"), _T(""), MB_OK);
+}
+
+void A4D::Duplicate()
+{
+	::MessageBox(NULL, _T("Duplicate"), _T(""), MB_OK);
+}
+
+void A4D::Rename()
+{
+	::MessageBox(NULL, _T("Rename"), _T(""), MB_OK);
+}
+
+void A4D::PasteObject()
+{
+	::MessageBox(NULL, _T("PasteObject"), _T(""), MB_OK);
+}
+
 void A4D::CopyObject()
 {
 	::MessageBox(NULL, _T("CopyObject"), _T(""), MB_OK);
@@ -231,8 +251,7 @@ void A4D::ShowMyContextMenu(QPoint point)
 {
 	//! 创建右键菜单
 	QMenu menu;
-	QTreeWidgetItem * item = ui.treeWidget->itemAt(point);
-	
+	QTreeWidgetItem * item = ui.treeWidget->currentItem();
 	if (item == NULL)
 	{
 		//空白处的菜单
@@ -240,10 +259,12 @@ void A4D::ShowMyContextMenu(QPoint point)
 		if (list.size() == 1)
 		{
 			//ShowMyContextMenuAtItem(list[0]);//如果是预设.显示的菜单
+			::MessageBox(NULL, _T("ShowMyContextMenuAtItem"), _T(""), MB_OK);
 		}
 		else
 		{
 			//ShowMyDefaultContextMenu();//一个都没选择/或者选择多个.
+			::MessageBox(NULL, _T("ShowMyDefaultContextMenu"), _T(""), MB_OK);
 		}
 	}
 	else
@@ -259,7 +280,6 @@ void A4D::ShowMyContextMenu(QPoint point)
 				action1->setObjectName("Set Active Scene");
 				action1->setText(tr("Set Active Scene"));
 				menu.addAction(action1);
-				
 			}
 			else
 			{
@@ -267,6 +287,7 @@ void A4D::ShowMyContextMenu(QPoint point)
 				map<int, GameObject*>::iterator iterGameObject = GameObjectHash.find(it->second);
 				if (iterGameObject != GameObjectHash.end())
 				{
+					//第一组
 					QAction* action1 = new QAction(&menu);
 					action1->setObjectName("Copy");
 					action1->setText(tr("Copy"));
@@ -279,11 +300,31 @@ void A4D::ShowMyContextMenu(QPoint point)
 					action2->setText(tr("Paste"));
 					menu.addAction(action2);
 
+					QObject::connect(action2, &QAction::triggered, this, &A4D::PasteObject);
+
 					menu.addSeparator();
+					//第二组 重命名 duplicate 删除
 					QAction* action3 = new QAction(&menu);
 					action3->setObjectName("Rename");
 					action3->setText(tr("Rename"));
 					menu.addAction(action3);
+					QObject::connect(action3, &QAction::triggered, this, &A4D::Rename);
+
+					QAction* action4 = new QAction(&menu);
+					action4->setObjectName("Duplicate");
+					action4->setText(tr("Duplicate"));
+					menu.addAction(action4);
+					QObject::connect(action4, &QAction::triggered, this, &A4D::Duplicate);
+
+					QAction* action5 = new QAction(&menu);
+					action5->setObjectName("Delete");
+					action5->setText(tr("Delete"));
+					menu.addAction(action5);
+					QObject::connect(action5, &QAction::triggered, this, &A4D::Delete);
+					
+					//如果是关联到预设-增加一组预设菜单
+					//最后一组普通菜单.
+					//QAction * action6 = new QAction(&action5);
 				}
 			}
 		}

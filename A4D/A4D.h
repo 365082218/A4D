@@ -70,7 +70,13 @@ public:
 	void OnEnable(AEvent * context);
 	void OnDisable(AEvent * context);
 	void ShowMyContextMenu(QPoint pos);
+
+	//context menu
 	void CopyObject();
+	void PasteObject();
+	void Rename();
+	void Duplicate();
+	void Delete();
 private:
 	Ui::A4DClass ui;
 };
